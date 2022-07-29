@@ -1,5 +1,5 @@
 const { MongoClient } = require("mongodb");
-require("dotenv").config({ path: "./.env" });
+require("dotenv").config();
 const { MONGO_URI } = process.env;
 
 const options = {
@@ -7,7 +7,8 @@ const options = {
   useUnifiedTopology: true,
 };
 
-const { items } = require("./data/items.json");
+const items = require("./data/items.json");
+const companies = require("./data/companies.json");
 
 const batchImport = async () => {
   const client = new MongoClient(MONGO_URI, options);
@@ -17,10 +18,17 @@ const batchImport = async () => {
 
     const db = client.db("E-Commerce_Project");
 
-    client.close();
+    const batch1 = await db.collection("Item Data").insertMany(items);
+    const batch2 = await db.collection("Companies").insertMany(companies);
+
+    if (batch1.acknowledged === true && batch2.acknowledged === true) {
+      console.log(batch1);
+      console.log(batch2);
+    }
   } catch (err) {
     console.log(err.message);
   }
+  client.close();
 };
 
-// batchImport();
+batchImport();
