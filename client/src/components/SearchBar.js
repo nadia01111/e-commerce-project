@@ -1,3 +1,7 @@
-const Header = () => {};
+import GlobalStyles from "./GlobalStyles";
 
-export default Header;
+const SearchBar = () => {
+ return <>SearchBar</>
+};
+
+export default SearchBar;

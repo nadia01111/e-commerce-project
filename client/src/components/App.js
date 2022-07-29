@@ -8,21 +8,23 @@ import Footer from "./Footer";
 import GlobalStyles from "./GlobalStyles";
 import ItemDetails from "./ItemDetails";
 import Cart from "./Cart";
+import Header from "./Header";
 
 const App = () => {
   return (
     <Router>
-      <GlobalStyles />
+      {/* <GlobalStyles /> */}
       <Wrapper>
-        <NavBar />
+        <Header/>
+        {/* <NavBar /> */}
         <Container>
           <Routes>
-            <Route path="/" element={<HomeFeed />} />
+            {/* <Route path="/" element={<HomeFeed />} />
             <Route path="/item/:itemId" element={<ItemDetails />} />
-            <Route path="/cart" element={<Cart />} />
+            <Route path="/cart" element={<Cart />} /> */}
           </Routes>
         </Container>
-        <Footer />
+        {/* <Footer /> */}
       </Wrapper>
     </Router>
   );
