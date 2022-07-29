@@ -8,17 +8,25 @@ import Footer from "./Footer";
 import GlobalStyles from "./GlobalStyles";
 import ItemDetails from "./ItemDetails";
 import Cart from "./Cart";
-import Header from "./Header";
+import Fitness from "./Nav/Fitness";
+import Lifestyle from "./Nav/Lifestyle";
+import Entertainment from "./Nav/Entertainment";
+import Medical from "./Nav/Medical";
+import Other from "./Nav/Other";
 
 const App = () => {
   return (
     <Router>
-      {/* <GlobalStyles /> */}
+      <GlobalStyles />
       <Wrapper>
-        <Header/>
-        {/* <NavBar /> */}
+        <NavBar />
         <Container>
           <Routes>
+            <Route path="/fitness" element={<Fitness />} />
+            <Route path="/lifestyle" element={<Lifestyle />} />
+            <Route path="/entertainment" element={<Entertainment />} />
+            <Route path="/medical" element={<Medical />} />
+            <Route path="/other" element={<Other />} />
             {/* <Route path="/" element={<HomeFeed />} />
             <Route path="/item/:itemId" element={<ItemDetails />} />
             <Route path="/cart" element={<Cart />} /> */}
