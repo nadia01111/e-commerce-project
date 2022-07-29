@@ -17,12 +17,12 @@ const App = () => {
         <NavBar />
         <Container>
           <Routes>
-            <Route path="/" element={<HomeFeed />} />
+            {/* <Route path="/" element={<HomeFeed />} />
             <Route path="/item/:itemId" element={<ItemDetails />} />
-            <Route path="/cart" element={<Cart />} />
+            <Route path="/cart" element={<Cart />} /> */}
           </Routes>
         </Container>
-        <Footer />
+        {/* <Footer /> */}
       </Wrapper>
     </Router>
   );
