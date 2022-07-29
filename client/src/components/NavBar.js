@@ -1,14 +1,15 @@
 import styled from "styled-components";
+import { NavLink } from "react-router-dom";
 
 const NavBar = () => {
   return (
     <Wrapper>
       <Nav>
-        <Options>Fitness</Options>
-        <Options>Lifestyle</Options>
-        <Options>Entertainment</Options>
-        <Options>Medical</Options>
-        <Options>Other</Options>
+        <Options to="/fitness">Fitness</Options>
+        <Options to="/lifestyle">Lifestyle</Options>
+        <Options to="/entertainment">Entertainment</Options>
+        <Options to="/medical">Medical</Options>
+        <Options to="/other">Other</Options>
       </Nav>
     </Wrapper>
   );
@@ -32,7 +33,7 @@ const Nav = styled.div`
   justify-content: center;
 `;
 
-const Options = styled.button`
+const Options = styled(NavLink)`
   background-color: transparent;
   font-size: 15px;
   border: none;
@@ -43,6 +44,7 @@ const Options = styled.button`
   cursor: pointer;
   color: black;
   opacity: 0.6;
+  text-decoration: none;
 
   &:hover {
     color: black;
@@ -53,6 +55,6 @@ const Options = styled.button`
 
   &.active {
     color: blue;
-    border-radius: 35px;
+    opacity: 1;
   }
 `;
