@@ -1,8 +1,8 @@
-'use strict';
+"use strict";
 
-const express = require('express');
-const morgan = require('morgan');
-const { getItems } = require('./handlers');
+const express = require("express");
+const morgan = require("morgan");
+const { getItems, getItemById } = require("./handlers");
 
 const PORT = 4000;
 
@@ -26,6 +26,9 @@ express()
 
   // REST endpoints?
   .get("/bacon", (req, res) => res.status(200).json("🥓"))
+  //get all items in the database
   .get("/getItems", getItems)
+  //gets item based on id (param passed during fetch)
+  .get("/getItem/:id", getItemById)
 
   .listen(PORT, () => console.info(`Listening on port ${PORT}`));
