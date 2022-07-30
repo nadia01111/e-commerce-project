@@ -13,12 +13,14 @@ import Lifestyle from "./Nav/Lifestyle";
 import Entertainment from "./Nav/Entertainment";
 import Medical from "./Nav/Medical";
 import Other from "./Nav/Other";
+import Header from "./Header";
 
 const App = () => {
   return (
     <Router>
       <GlobalStyles />
       <Wrapper>
+        <Header />
         <NavBar />
         <Container>
           <Routes>
@@ -32,7 +34,7 @@ const App = () => {
             <Route path="/cart" element={<Cart />} /> */}
           </Routes>
         </Container>
-        {/* <Footer /> */}
+        <Footer />
       </Wrapper>
     </Router>
   );

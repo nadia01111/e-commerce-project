@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import { NavLink } from "react-router-dom";
 
+//Path links to specific categories in Navbar
 const NavBar = () => {
   return (
     <Wrapper>
