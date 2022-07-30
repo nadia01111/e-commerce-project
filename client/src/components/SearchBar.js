@@ -4,6 +4,7 @@ import GlobalStyles from "./GlobalStyles";
 import { FiSearch } from "react-icons/fi";
 
 const SearchBar = () => {
+
 const [value, setValue] = useState("")
 /// typeahead in search field
 const startSearch = () => {
@@ -13,7 +14,8 @@ const startSearch = () => {
   return (
       <Wrapper>
         <Form onSubmit={startSearch}> 
-        <Input onChange={(ev) => setValue(ev.target.value)} type="text" placeholder="Search" value={value}/>   
+        <FiSearch/>
+        <Input onChange={(ev) => setValue(ev.target.value)} type="text" placeholder="Search" value={value}/>
         <Input type="submit" value="Search"/>
         </Form>
       </Wrapper>
@@ -21,27 +23,37 @@ const startSearch = () => {
   )
 };
 
-const Wrapper = styled.div`
-
-`;
+const Wrapper = styled.div``;
 const Form = styled.form`
+padding-left: 10px;
+background-color: #FAFAFA;
+width: 40vw;
+border: 0.5px solid black;
+height: 30px;
+border-radius: 2px;
 display: flex;
+align-items: center;
+justify-content: flex-start;
 
 `
 const Input = styled.input`
+padding-left: 5px;
+border: none;
 height: 30px;
-border-radius: 2px;
+outline: none;
+background-color: #FAFAFA;
+
 &[type=text]{
-    width: 40vw;
-    border: 0.5px solid black;
-    padding: -2px;
+:active{
+    border:none;
+}
 
 }
 &[type=submit]{
     display: none;
 }
 ::placeholder{
-    padding: 10px;
+    padding: 5px;
     font-size: larger;
 }
 `;
