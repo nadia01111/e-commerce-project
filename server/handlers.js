@@ -21,7 +21,7 @@ const getItems = async (req, res) => {
     // console.log(items);
     return res.status(200).json({
       status: 200,
-      body: items,
+      data: items,
       success: true,
     });
   } catch (err) {
@@ -49,14 +49,45 @@ const getItemById = async (req, res) => {
     if (item !== null) {
       return res.status(200).json({
         status: 200,
-        body: item,
+        data: item,
         message: `You have retrieved item ${item.name} from ID ${_id}`,
       });
     } else {
       return res.status(404).json({
         status: 404,
-        body: item,
+        data: item,
         message: `No item with ${_id} was found`,
+      });
+    }
+  } catch (err) {
+    console.log(err.message);
+  } finally {
+    client.close();
+  }
+};
+
+const getCompanies = async (req, res) => {
+  const client = new MongoClient(MONGO_URI, options);
+  await client.connect();
+
+  try {
+    //DB to which to connect to
+    const db = client.db("E-Commerce_Project");
+    //finding all companies
+    const companies = await db.collection("Companies").find().toArray();
+
+    //send companies object as data to frontend if not null
+    if (companies.length > 0) {
+      return res.status(200).json({
+        status: 200,
+        data: companies,
+        message: "You have retrieved all companies.",
+      });
+    } else {
+      return res.status(404).json({
+        status: 404,
+        data: companies,
+        message: `No companies found...`,
       });
     }
   } catch (err) {
@@ -69,4 +100,5 @@ const getItemById = async (req, res) => {
 module.exports = {
   getItems,
   getItemById,
+  getCompanies,
 };
