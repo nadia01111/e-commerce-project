@@ -2,7 +2,14 @@
 
 const express = require("express");
 const morgan = require("morgan");
-const { getItems, getItemById, getCompanies } = require("./handlers");
+const {
+  getItems,
+  getItemById,
+  getCompanies,
+  createCart,
+  addItemToCart,
+  deleteItemFromCart,
+} = require("./handlers");
 
 const PORT = 4000;
 
@@ -32,5 +39,11 @@ express()
   .get("/getItem/:id", getItemById)
   //gets all companies
   .get("/getCompanies", getCompanies)
+  // returns unique cartId
+  .get("/api/createCart", createCart)
+  // Is it a good idea to have the endpoint starting with "/api/.... " ??
+  .put("/api/addItemToCart", addItemToCart)
+  // deletes itemId from user's cart
+  .delete("/api/deleteItemToCart", deleteItemFromCart)
 
   .listen(PORT, () => console.info(`Listening on port ${PORT}`));

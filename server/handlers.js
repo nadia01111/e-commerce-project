@@ -97,8 +97,91 @@ const getCompanies = async (req, res) => {
   }
 };
 
+//----------------------------------------------------------------------------------------------------
+// CREATES unique CART ID upon loading the Home Page with an empty Array inside and returns it's ID
+// to store it in LOCAL STORAGE
+//----------------------------------------------------------------------------------------------------
+const createCart = async (req, res) => {
+  const items = ["2343"];
+  const client = new MongoClient(MONGO_URI, options);
+  await client.connect();
+  try {
+    const db = client.db("E-Commerce_Project");
+    const cart = await db.collection("Cart").insertOne({ items });
+
+    console.log(cart);
+    return res.status(200).json({
+      status: 200,
+      data: cart,
+      message: "Unique Cart ID created",
+    });
+  } catch (err) {
+    console.log(err.message);
+  } finally {
+    client.close();
+  }
+};
+//----------------------------------------------------------------------------------
+// adds item IDs to the customer's unique CART. Expects only one itemId and the cartId.
+//----------------------------------------------------------------------------------
+const addItemToCart = async (req, res) => {
+  const _id = req.body.cartId;
+  const itemId = req.body.itemId;
+  const client = new MongoClient(MONGO_URI, options);
+  await client.connect();
+  try {
+    const db = client.db("E-Commerce_Project");
+    const insertedId = await db
+      .collection("Cart")
+      .updateOne({ _id: ObjectId(_id) }, { $push: { items: itemId.toString() } });
+    console.log(insertedId);
+     return res.status(200).json({
+       status: 200,
+       data: insertedId,
+       message: "item added",
+     });
+
+  } catch (err) {
+    console.log(err.message);
+  } finally {
+    client.close();
+  }
+};
+
+//--------------------------------------------------------------------------------------------
+// delete item IDs from the customer's unique CART. Expects only one item ID and the cartId.
+//--------------------------------------------------------------------------------------------
+const deleteItemFromCart = async (req, res) => {
+  const _id = req.body.cartId;
+  const itemId = req.body.itemId;
+  const client = new MongoClient(MONGO_URI, options);
+  await client.connect();
+  try {
+    const db = client.db("E-Commerce_Project");
+    const removedItem = await db
+      .collection("Cart")
+      .updateOne(
+        { _id: ObjectId(_id) },
+        { $pull: { items: itemId.toString() } }
+      );
+    console.log(removedItem);
+    return res.status(200).json({
+      status: 200,
+      message: "item removed",
+    });
+  } catch (err) {
+    console.log(err.message);
+  } finally {
+    client.close();
+  }
+};
+
+
 module.exports = {
   getItems,
   getItemById,
   getCompanies,
+  addItemToCart,
+  createCart,
+  deleteItemFromCart,
 };
