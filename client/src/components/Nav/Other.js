@@ -27,16 +27,24 @@ const Other = () => {
         item.numInStock !== 0
       );
     });
-    return filtered.map((item) => {
-      return (
-        <>
-          <div>{item.name}</div>
-          <div>{item.price}</div>
-          <img src={item.imageSrc}></img>
-          <div>{item.body_location}</div>
-        </>
-      );
-    });
+    return (
+      <Wrapper>
+        {filtered.map((item) => {
+          return (
+            <Wrap>
+              <WrapImg>
+                <Img src={item.imageSrc}></Img>
+              </WrapImg>
+              <Name>{item.name}</Name>
+              <Location>{item.body_location}</Location>
+              <Price>
+                <strong>{item.price}</strong>
+              </Price>
+            </Wrap>
+          );
+        })}
+      </Wrapper>
+    );
   } else {
     return (
       <Icon>
@@ -47,6 +55,43 @@ const Other = () => {
 };
 
 export default Other;
+
+const WrapImg = styled.div`
+  display: flex;
+  justify-content: center;
+`;
+
+const Price = styled.div`
+  font-size: 20px;
+`;
+
+const Location = styled.div`
+  padding-bottom: 10px;
+`;
+
+const Name = styled.div`
+  padding-bottom: 10px;
+`;
+
+const Img = styled.img`
+  height: 150px;
+  width: 150px;
+  padding-bottom: 10px;
+`;
+
+const Wrapper = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+`;
+
+const Wrap = styled.div`
+  display: flex;
+  flex-direction: column;
+  width: 200px;
+  border: 1px solid black;
+  margin: 20px;
+  padding: 15px;
+`;
 
 const turning = keyframes`
         0% {
