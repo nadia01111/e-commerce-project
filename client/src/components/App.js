@@ -14,6 +14,7 @@ import Entertainment from "./Nav/Entertainment";
 import Medical from "./Nav/Medical";
 import Other from "./Nav/Other";
 import Header from "./Header";
+import About from "./About";
 
 const App = () => {
   return (
@@ -29,9 +30,10 @@ const App = () => {
             <Route path="/entertainment" element={<Entertainment />} />
             <Route path="/medical" element={<Medical />} />
             <Route path="/other" element={<Other />} />
-            {/* <Route path="/" element={<HomeFeed />} />
+            <Route path="/" element={<HomeFeed />} />
             <Route path="/item/:itemId" element={<ItemDetails />} />
-            <Route path="/cart" element={<Cart />} /> */}
+            <Route path="/cart" element={<Cart />} />
+            <Route path="/about" element={<About />} />
           </Routes>
         </Container>
         <Footer />

@@ -13,12 +13,12 @@ console.log(screenWidth)
     
 
   return (
-    <Wrapper onChange={()=>setScreenWidth(window.screen.width)}>
+    <Wrapper>
       <Logo to="/"><h1>GFKN</h1></Logo>
       <SearchBar />
     {screenWidth>600
         ?<Wrapper1>
-            <Cart to="/about"><AiOutlineShoppingCart/></Cart>
+            <Cart to="/cart"><AiOutlineShoppingCart/></Cart>
             <About to="/about"><h4>About</h4></About>
             <LogIn to="/login"><h4>Login</h4></LogIn>
         </Wrapper1>
@@ -28,6 +28,7 @@ console.log(screenWidth)
     </Wrapper>
   );
 };
+
 
 const Menu = styled.div`
 
@@ -58,12 +59,12 @@ const Wrapper1 = styled.div`
 const Logo = styled(NavLink)`
 margin-left:40px;
 text-decoration:none;
-color:black;
+color:var(--color-black);
 cursor: pointer;
 `;
 const About = styled(NavLink)`
 text-decoration:none;
-color:black;
+color:var(--color-black);
 :hover {
     display: inline;
     border-bottom: 3px solid var(--color-navbar-beige);
@@ -72,19 +73,19 @@ color:black;
 `;
 
 const LogIn = styled(NavLink)`
-color:black;
+color:var(--color-black);
 text-decoration:none;
 margin-right:10px;
   background: none;
   border: none;
   padding: 0;
-  border: 1px solid black;
+  border: 1px solid var(--color-black);
   border-radius: 3px;
   padding: 5px 15px;
   font: inherit;
   cursor: pointer;
   :hover {
-    background-color: black;
+    background-color: var(--color-black);
     color: var(--color-navbar-beige);
 
   }
