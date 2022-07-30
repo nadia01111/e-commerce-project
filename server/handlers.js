@@ -21,7 +21,7 @@ const getItems = async (req, res) => {
     // console.log(items);
     return res.status(200).json({
       status: 200,
-      body: items,
+      data: items,
       success: true,
     });
   } catch (err) {
@@ -49,13 +49,13 @@ const getItemById = async (req, res) => {
     if (item !== null) {
       return res.status(200).json({
         status: 200,
-        body: item,
+        data: item,
         message: `You have retrieved item ${item.name} from ID ${_id}`,
       });
     } else {
       return res.status(404).json({
         status: 404,
-        body: item,
+        data: item,
         message: `No item with ${_id} was found`,
       });
     }
