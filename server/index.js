@@ -2,7 +2,7 @@
 
 const express = require("express");
 const morgan = require("morgan");
-const { getItems, getItemById } = require("./handlers");
+const { getItems, getItemById, getCompanies } = require("./handlers");
 
 const PORT = 4000;
 
@@ -30,5 +30,7 @@ express()
   .get("/getItems", getItems)
   //gets item based on id (param passed during fetch)
   .get("/getItem/:id", getItemById)
+  //gets all companies
+  .get("/getCompanies", getCompanies)
 
   .listen(PORT, () => console.info(`Listening on port ${PORT}`));
