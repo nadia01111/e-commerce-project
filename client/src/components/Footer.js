@@ -1,14 +1,115 @@
+import { useEffect } from "react";
+import { useState } from "react";
 import styled from "styled-components";
+import {
+  AiFillInstagram,
+  AiFillApple,
+  AiFillAndroid,
+  AiFillFacebook,
+  AiFillTwitterSquare,
+} from "react-icons/ai";
 
 const Footer = () => {
-  return <BottomFooter>Footer</BottomFooter>;
+  const [companies, setCompanies] = useState(null);
+
+  //get all companies endpoint
+  useEffect(() => {
+    fetch(`/getCompanies`)
+      .then((res) => res.json())
+      .then((data) => {
+        setCompanies(data.data);
+        console.log(data.data);
+      });
+  }, []);
+
+  // display max of 45 companies we distribute
+  if (companies) {
+    let randomCompanies = [];
+    for (let counter = 0; counter < 45; counter++) {
+      let randomIndex = Math.floor(Math.random() * companies?.length);
+      if (!randomCompanies.includes(companies[randomIndex])) {
+        randomCompanies.push(companies[randomIndex]);
+      }
+    }
+    return (
+      <>
+        <Info>Some brands we distribute</Info>
+        <Container>
+          {randomCompanies?.map((company) => {
+            return (
+              <Wrapper>
+                <Wrap>{company.name}</Wrap>
+              </Wrapper>
+            );
+          })}
+        </Container>
+        <ContactSection>
+          <OurApp>
+            <div>Find us on Social</div>
+            <Icons>
+              <AiFillInstagram style={{ paddingRight: "10px" }} />
+              <AiFillFacebook style={{ paddingRight: "10px" }} />
+              <AiFillTwitterSquare />
+            </Icons>
+          </OurApp>
+          <OurApp>
+            <div>Download our App</div>
+            <Icons>
+              <AiFillApple style={{ paddingRight: "10px" }} />
+              <AiFillAndroid />
+            </Icons>
+          </OurApp>
+        </ContactSection>
+      </>
+    );
+  } else {
+    return <div>Loading</div>;
+  }
 };
 
 export default Footer;
 
-const BottomFooter = styled.div`
+const Container = styled.div`
   display: flex;
   flex-direction: column;
-  margin: 0;
-  min-height: 100vh;
+  flex-wrap: wrap;
+  height: 200px;
+  align-items: flex-start;
+  padding-right: 80px;
+  padding-left: 80px;
+  background-color: #1f1f1e;
+  padding-bottom: 35px;
+`;
+
+const Wrap = styled.div`
+  padding: 5px 10px;
+  color: white;
+  font-size: 12px;
+`;
+
+const Wrapper = styled.div``;
+
+const Info = styled.div`
+  color: white;
+  background-color: #1f1f1e;
+  padding: 35px 0 35px 85px;
+  margin-top: 40px;
+  font-size: 25px;
+`;
+
+const ContactSection = styled.div`
+  display: flex;
+  justify-content: center;
+  background-color: black;
+`;
+
+const Icons = styled.div``;
+
+const Socials = styled.div;
+
+const OurApp = styled.div`
+  display: flex;
+  flex-direction: column;
+  padding: 15px;
+  color: white;
 `;
