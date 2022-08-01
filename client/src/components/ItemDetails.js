@@ -21,7 +21,7 @@ const ItemDetails = () => {
       .catch((err) => {
         setStatus("error");
       });
-  }, []);
+  }, [itemId]);
 
   if (status === "loading") {
     return <div>loading</div>;
