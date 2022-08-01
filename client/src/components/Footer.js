@@ -19,7 +19,6 @@ const Footer = () => {
       .then((res) => res.json())
       .then((data) => {
         setCompanies(data.data);
-        console.log(data.data);
       });
   }, []);
 

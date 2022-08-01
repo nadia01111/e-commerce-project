@@ -3,6 +3,7 @@ import { useContext, useState, useEffect } from "react";
 import { ItemsDataContext } from "./ItemsDataContext";
 import styled, { keyframes } from "styled-components";
 import { FiLoader } from "react-icons/fi";
+import { Link } from "react-router-dom";
 
 const HomeFeed = () => {
   const { allItems, setAllItems } = useContext(ItemsDataContext);
@@ -23,7 +24,7 @@ const HomeFeed = () => {
       <Wrapper>
         {randomItemArr?.map((item) => {
           return (
-            <Wrap>
+            <Wrap key={item._id}  to={`/item/${item._id}`}>
               <WrapImg>
                 <Img src={item.imageSrc}></Img>
               </WrapImg>
@@ -66,7 +67,9 @@ const Wrapper = styled.div`
   margin-left: 80px;
   margin-right: 80px;
 `;
-const Wrap = styled.div`
+const Wrap = styled(Link)`
+  color: var( --color-black);
+  text-decoration:none;
   border: 1px solid var(--color-navbar-beige);
   width: calc(90vw / 7);
   margin: 5px;
