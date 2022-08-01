@@ -1,94 +1,123 @@
 import GlobalStyles from "./GlobalStyles";
 import { useContext, useState, useEffect } from "react";
 import { ItemsDataContext } from "./ItemsDataContext";
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
+import { FiLoader } from "react-icons/fi";
 
 const HomeFeed = () => {
+  const { allItems, setAllItems } = useContext(ItemsDataContext);
 
-const {allItems,setAllItems} = useContext(ItemsDataContext);
+  /// display 18 random items on home page
 
-/// display 18 random items on home page
-
-
-
-if (allItems) {
-  let randomItemArr = [];
-  for (let counter = 0; counter < 18; counter++) {
-    let randomIndex = Math.floor(Math.random() * allItems?.length);
-    if (!randomItemArr.includes(allItems[randomIndex])){
-      randomItemArr.push(allItems[randomIndex])}
+  if (allItems) {
+    let randomItemArr = [];
+    for (let counter = 0; counter < 18; counter++) {
+      let randomIndex = Math.floor(Math.random() * allItems?.length);
+      if (!randomItemArr.includes(allItems[randomIndex])) {
+        randomItemArr.push(allItems[randomIndex]);
+      }
     }
-  return (
-    
-    <Wrapper>
-          {randomItemArr?.map((item) => {
-            return (
+    return (
+      <Wrapper>
+        {randomItemArr?.map((item) => {
+          return (
             <Wrap>
               <WrapImg>
                 <Img src={item.imageSrc}></Img>
               </WrapImg>
               <GrayText>{item.body_location}</GrayText>
               <Text>{item.name}</Text>
-              {item.numInStock<2 
-              ? <GrayText>Low stock</GrayText>:null}
+              {item.numInStock < 2 ? <GrayText>Low stock</GrayText> : null}
               <Price>
                 <strong>{item.price}</strong>
               </Price>
-            </Wrap>)
-          })}
-    </Wrapper>
-  );
- } else {return <div>Loading</div>}
+            </Wrap>
+          );
+        })}
+      </Wrapper>
+    );
+  } else {
+    return (
+      <LoaderWrapper>
+        <Icon>
+          <FiLoader style={{ height: "30px", width: "30px" }} />
+        </Icon>
+      </LoaderWrapper>
+    );
+  }
 };
 const WrapImg = styled.div`
-width: auto;
-height:150px;
-margin: 10px;
-align-self:flex-start;
-display: flex;
-justify-content: center;
-align-items: center;
+  width: auto;
+  height: 150px;
+  margin: 10px;
+  align-self: flex-start;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `;
 
 const Wrapper = styled.div`
-display: flex;
-flex-wrap: wrap;
-width: 100%;
-margin-top: 10px;
-margin-left: 80px;
-margin-right: 80px;
-
+  display: flex;
+  flex-wrap: wrap;
+  width: 100%;
+  margin-top: 10px;
+  margin-left: 80px;
+  margin-right: 80px;
 `;
 const Wrap = styled.div`
-border: 1px solid var(--color-navbar-beige);
-width: calc(90vw/7);
-margin: 5px;
-padding:5px;
-overflow: hidden;
-display: flex;
-flex-direction: column;
-align-items:flex-start;
-justify-content: space-between;
-align-content: flex-start;
+  border: 1px solid var(--color-navbar-beige);
+  width: calc(90vw / 7);
+  margin: 5px;
+  padding: 5px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: space-between;
+  align-content: flex-start;
 `;
 const Img = styled.img`
-width: 100%;
-height: 100%;
-object-fit: contain;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
 `;
 
 const Price = styled.div`
-font-size: 12px;
-align-self:flex-end;
+  font-size: 12px;
+  align-self: flex-end;
 `;
 
 const GrayText = styled.div`
-font-size: 10px;
-color: grey;
+  font-size: 10px;
+  color: grey;
 `;
 
 const Text = styled.div`
-font-size: 12px;
-height: 10vh;
+  font-size: 12px;
+  height: 10vh;
 `;
+
+const LoaderWrapper = styled.div`
+  height: 500px;
+`;
+
+const turning = keyframes`
+        0% {
+            transform: rotate(0deg);
+        }
+
+        100% {
+            transform: rotate(360deg);
+        }
+    `;
+
+const Icon = styled.div`
+  position: absolute;
+  width: 30px;
+  height: 30px;
+  top: 49%;
+  left: 49%;
+  animation: ${turning} 1000ms infinite linear;
+`;
+
 export default HomeFeed;
