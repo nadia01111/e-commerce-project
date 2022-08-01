@@ -9,7 +9,7 @@ const options = {
   useUnifiedTopology: true,
 };
 // use this package to generate unique ids: https://www.npmjs.com/package/uuid
-const { v4: uuidv4 } = require("uuid");
+const { v4: uuidv4, stringify } = require("uuid");
 
 // returns a list of all ITEMS
 const getItems = async (req, res) => {
@@ -158,6 +158,7 @@ const addItemToCart = async (req, res) => {
         message: `Cart with ID ${_id} was not found.`,
       });
     }
+
   } catch (err) {
     console.log(err.message);
   } finally {
@@ -165,9 +166,45 @@ const addItemToCart = async (req, res) => {
   }
 };
 
-//--------------------------------------------------------------------------------------------
-// delete item IDs from the customer's unique CART. Expects only one item ID and the cartId.
-//--------------------------------------------------------------------------------------------
+//-----------------------------------------------------------------------------------------------------
+// gets Items from Cart to create an Order  !!! ~~~~~ Still missing Updating the stock feature ~~~~~
+//-----------------------------------------------------------------------------------------------------
+const goCheckOut = async (req, res) => {
+  let orderItems = [];
+  const _id = req.body.cartId;
+  const client = new MongoClient(MONGO_URI, options);
+  await client.connect();
+  try {
+    const db = client.db("E-Commerce_Project");
+    const cartItems = await db
+      .collection("Cart")
+      .findOne({ _id: ObjectId(_id) });
+
+    orderItems = cartItems.items;
+
+    const orderId = await db
+      .collection("Orders")
+      .insertOne({ orderItems: orderItems });
+    let uniqueId = orderId.insertedId.toString();
+    
+    console.log(uniqueId);
+    
+    const newOrder = await db.collection("Orders").findOne({ _id: ObjectId(uniqueId) });
+
+    //Update the stock for the Item
+
+    console.log(newOrder);
+    return res.status(200).json({
+      status: 200,
+      data: newOrder,
+      message: "item removed",
+    });
+  } catch (err) {
+    console.log(err.message);
+  } finally {
+    client.close();
+  }
+};
 const deleteItemFromCart = async (req, res) => {
   const _id = req.body.cartId;
   const item = req.body;
@@ -211,4 +248,5 @@ module.exports = {
   addItemToCart,
   createCart,
   deleteItemFromCart,
+  goCheckOut,
 };

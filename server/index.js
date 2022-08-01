@@ -9,6 +9,7 @@ const {
   createCart,
   addItemToCart,
   deleteItemFromCart,
+  goCheckOut,
 } = require("./handlers");
 
 const PORT = 4000;
@@ -43,6 +44,8 @@ express()
   .get("/api/createCart", createCart)
   // Is it a good idea to have the endpoint starting with "/api/.... " ??
   .put("/api/addItemToCart", addItemToCart)
+  //go to CHECKOUT
+  .put("/api/goToCheckOut", goCheckOut)
   // deletes itemId from user's cart
   .delete("/api/deleteItemToCart", deleteItemFromCart)
 
