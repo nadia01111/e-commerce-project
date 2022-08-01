@@ -11,7 +11,9 @@ const options = {
 // use this package to generate unique ids: https://www.npmjs.com/package/uuid
 const { v4: uuidv4, stringify } = require("uuid");
 
-// returns a list of all ITEMS
+//-----------------------------------------------------------------------------------------------------
+// returns list of all items
+//-----------------------------------------------------------------------------------------------------
 const getItems = async (req, res) => {
   const client = new MongoClient(MONGO_URI, options);
   await client.connect();
@@ -31,7 +33,9 @@ const getItems = async (req, res) => {
   }
 };
 
-//funcion for getting specific item filtered by ID received as params
+//-----------------------------------------------------------------------------------------------------
+// funcion for getting specific item filtered by ID received as params
+//-----------------------------------------------------------------------------------------------------
 const getItemById = async (req, res) => {
   //parameter received from FE when fetching
   const _id = req.params.id;
@@ -66,6 +70,9 @@ const getItemById = async (req, res) => {
   }
 };
 
+//-----------------------------------------------------------------------------------------------------
+// gets all companies
+//-----------------------------------------------------------------------------------------------------
 const getCompanies = async (req, res) => {
   const client = new MongoClient(MONGO_URI, options);
   await client.connect();
@@ -138,8 +145,8 @@ const addItemToCart = async (req, res) => {
       .collection("Cart")
       .findOne({ _id: ObjectId(_id) });
 
-    console.log(validateCart);
     if (validateCart !== null) {
+      //updates the cart by adding said item
       await db
         .collection("Cart")
         .updateOne(
@@ -158,7 +165,6 @@ const addItemToCart = async (req, res) => {
         message: `Cart with ID ${_id} was not found.`,
       });
     }
-
   } catch (err) {
     console.log(err.message);
   } finally {
@@ -186,10 +192,12 @@ const goCheckOut = async (req, res) => {
       .collection("Orders")
       .insertOne({ orderItems: orderItems });
     let uniqueId = orderId.insertedId.toString();
-    
+
     console.log(uniqueId);
-    
-    const newOrder = await db.collection("Orders").findOne({ _id: ObjectId(uniqueId) });
+
+    const newOrder = await db
+      .collection("Orders")
+      .findOne({ _id: ObjectId(uniqueId) });
 
     //Update the stock for the Item
 
@@ -205,6 +213,9 @@ const goCheckOut = async (req, res) => {
     client.close();
   }
 };
+//-----------------------------------------------------------------------------------------------------
+// deletes item from Cart
+//-----------------------------------------------------------------------------------------------------
 const deleteItemFromCart = async (req, res) => {
   const _id = req.body.cartId;
   const item = req.body;
@@ -213,11 +224,13 @@ const deleteItemFromCart = async (req, res) => {
   try {
     const db = client.db("E-Commerce_Project");
 
+    //checks if said Cart with CartId exists
     const validateItem = await db
       .collection("Cart")
       .findOne({ _id: ObjectId(_id) });
 
     if (validateItem !== null) {
+      //updates the cart by removing said item
       await db
         .collection("Cart")
         .updateOne({ _id: ObjectId(_id) }, { $pull: { items: item } });
@@ -241,6 +254,43 @@ const deleteItemFromCart = async (req, res) => {
   }
 };
 
+//-----------------------------------------------------------------------------------------------------
+// gets all of the items that are currently in the cart
+//-----------------------------------------------------------------------------------------------------
+const getCartItems = async (req, res) => {
+  const cartId = req.body.cartId;
+  const client = new MongoClient(MONGO_URI, options);
+  await client.connect();
+
+  try {
+    const db = client.db("E-Commerce_Project");
+
+    //validates that the id provided from FE matches the id in the cart collection
+    const validateCart = await db
+      .collection("Cart")
+      .findOne({ _id: ObjectId(cartId) });
+
+    // if validateCart exists, send the items within that cart
+    if (validateCart !== null) {
+      return res.status(200).json({
+        status: 200,
+        data: validateCart.items,
+        message: `You are now viewing Cart with ID ${cartId}.`,
+      });
+    } else {
+      return res.status(404).json({
+        status: 404,
+        data: cartId,
+        message: `Cart with ID ${cartId} does not exist.`,
+      });
+    }
+  } catch (err) {
+    console.log(err.message);
+  } finally {
+    client.close();
+  }
+};
+
 module.exports = {
   getItems,
   getItemById,
@@ -249,4 +299,5 @@ module.exports = {
   createCart,
   deleteItemFromCart,
   goCheckOut,
+  getCartItems,
 };
