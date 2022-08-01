@@ -1,6 +1,7 @@
 import React from "react";
 import styled, { keyframes } from "styled-components";
 import { FiLoader } from "react-icons/fi";
+import { NavLink, useParams } from "react-router-dom";
 
 import { useContext, useState, useEffect } from "react";
 
@@ -18,24 +19,27 @@ const Entertainment = () => {
 
   if (category !== null) {
     //filtered array containing only items with category 'Entertainment'
-    const filtered = category.filter((item) => {
+    const filtered = category?.filter((item) => {
       return item.category === "Entertainment" && item.numInStock !== 0;
     });
+    console.log(filtered);
     return (
       <Wrapper>
         {filtered?.map((item) => {
           return (
-            <Wrap>
-              <WrapImg>
-                <Img src={item.imageSrc}></Img>
-              </WrapImg>
-              <GrayText>{item.body_location}</GrayText>
-              <Text>{item.name}</Text>
-              {item.numInStock < 2 ? <GrayText>Low stock</GrayText> : null}
-              <Price>
-                <strong>{item.price}</strong>
-              </Price>
-            </Wrap>
+            <LinkTo key={item._id} to={`/item/${item._id}`}>
+              <Wrap>
+                <WrapImg>
+                  <Img src={item.imageSrc}></Img>
+                </WrapImg>
+                <GrayText>{item.body_location}</GrayText>
+                <Text>{item.name}</Text>
+                {item.numInStock < 2 ? <GrayText>Low stock</GrayText> : null}
+                <Price>
+                  <strong>{item.price}</strong>
+                </Price>
+              </Wrap>
+            </LinkTo>
           );
         })}
       </Wrapper>
@@ -100,6 +104,8 @@ const Text = styled.div`
   font-size: 12px;
   height: 10vh;
 `;
+
+const LinkTo = styled(NavLink)``;
 
 const LoaderWrapper = styled.div`
   height: 500px;

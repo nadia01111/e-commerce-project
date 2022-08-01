@@ -109,7 +109,6 @@ const createCart = async (req, res) => {
     const db = client.db("E-Commerce_Project");
     const cart = await db.collection("Cart").insertOne({ items });
 
-    console.log(cart);
     return res.status(200).json({
       status: 200,
       data: cart,
@@ -122,27 +121,44 @@ const createCart = async (req, res) => {
   }
 };
 //----------------------------------------------------------------------------------
-// adds item IDs to the customer's unique CART. Expects only one itemId and the cartId.
+// adds item IDs to the customer's unique CART. Expects only one item and the cartId.
 //----------------------------------------------------------------------------------
 const addItemToCart = async (req, res) => {
   const _id = req.body.cartId;
-  const itemId = req.body.itemId;
+  const item = req.body;
+
   const client = new MongoClient(MONGO_URI, options);
   await client.connect();
+
   try {
     const db = client.db("E-Commerce_Project");
-    const insertedId = await db
+
+    //checks if said Cart with CartId exists
+    const validateCart = await db
       .collection("Cart")
-      .updateOne(
-        { _id: ObjectId(_id) },
-        { $push: { items: itemId.toString() } }
-      );
-    console.log(insertedId);
-    return res.status(200).json({
-      status: 200,
-      data: insertedId,
-      message: "item added",
-    });
+      .findOne({ _id: ObjectId(_id) });
+
+    console.log(validateCart);
+    if (validateCart !== null) {
+      await db
+        .collection("Cart")
+        .updateOne(
+          { _id: ObjectId(_id) },
+          { $push: { items: item } } /* item.toString() */
+        );
+      return res.status(201).json({
+        status: 201,
+        data: item,
+        message: `Item with ID ${item._id} has been added to cart ID ${_id}.`,
+      });
+    } else {
+      return res.status(404).json({
+        status: 404,
+        data: _id,
+        message: `Cart with ID ${_id} was not found.`,
+      });
+    }
+
   } catch (err) {
     console.log(err.message);
   } finally {
@@ -191,22 +207,33 @@ const goCheckOut = async (req, res) => {
 };
 const deleteItemFromCart = async (req, res) => {
   const _id = req.body.cartId;
-  const itemId = req.body.itemId;
+  const item = req.body;
   const client = new MongoClient(MONGO_URI, options);
   await client.connect();
   try {
     const db = client.db("E-Commerce_Project");
-    const removedItem = await db
+
+    const validateItem = await db
       .collection("Cart")
-      .updateOne(
-        { _id: ObjectId(_id) },
-        { $pull: { items: itemId.toString() } }
-      );
-    console.log(removedItem);
-    return res.status(200).json({
-      status: 200,
-      message: "item removed",
-    });
+      .findOne({ _id: ObjectId(_id) });
+
+    if (validateItem !== null) {
+      await db
+        .collection("Cart")
+        .updateOne({ _id: ObjectId(_id) }, { $pull: { items: item } });
+
+      return res.status(200).json({
+        status: 200,
+        data: item,
+        message: `Item with ID ${item._id}.`,
+      });
+    } else {
+      return res.status(404).json({
+        status: 404,
+        data: item,
+        message: `Item with ID ${item._id} was not found `,
+      });
+    }
   } catch (err) {
     console.log(err.message);
   } finally {

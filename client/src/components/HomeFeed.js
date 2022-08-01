@@ -9,6 +9,7 @@ const HomeFeed = () => {
 
   /// display 18 random items on home page
 
+
   if (allItems) {
     let randomItemArr = [];
     for (let counter = 0; counter < 18; counter++) {
@@ -16,6 +17,7 @@ const HomeFeed = () => {
       if (!randomItemArr.includes(allItems[randomIndex])) {
         randomItemArr.push(allItems[randomIndex]);
       }
+
     }
     return (
       <Wrapper>
