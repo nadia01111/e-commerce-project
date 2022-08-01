@@ -10,6 +10,7 @@ const {
   addItemToCart,
   deleteItemFromCart,
   goCheckOut,
+  getCartItems,
 } = require("./handlers");
 
 const PORT = 4000;
@@ -36,17 +37,19 @@ express()
   .get("/bacon", (req, res) => res.status(200).json("🥓"))
   //get all items in the database
   .get("/getItems", getItems)
-  //gets item based on id (param passed during fetch)
+  // gets item based on id (param passed during fetch)
   .get("/getItem/:id", getItemById)
-  //gets all companies
+  // gets all companies
   .get("/getCompanies", getCompanies)
   // returns unique cartId
-  .get("/api/createCart", createCart)
-  // Is it a good idea to have the endpoint starting with "/api/.... " ??
-  .put("/api/addItemToCart", addItemToCart)
-  //go to CHECKOUT
-  .put("/api/goToCheckOut", goCheckOut)
+  .get("/createCart", createCart)
+  // adds selected item to cart
+  .post("/addItemToCart", addItemToCart)
+  // goes to CHECKOUT page and transfers items to Orders collection from Cart collection
+  .put("/goToCheckOut", goCheckOut)
   // deletes itemId from user's cart
-  .delete("/api/deleteItemToCart", deleteItemFromCart)
+  .delete("/deleteItemToCart", deleteItemFromCart)
+  // retrieves items from Cart
+  .get("/getCartItems", getCartItems)
 
   .listen(PORT, () => console.info(`Listening on port ${PORT}`));
