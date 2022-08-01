@@ -5,9 +5,11 @@ import { FiSearch } from "react-icons/fi";
 import { MdClear } from "react-icons/md";
 import { ItemsDataContext } from "./ItemsDataContext";
 import { useNavigate } from "react-router-dom";
+import SearchResults from "./SearchResults";
+
 
 const SearchBar = () => {
-const {allItems,setAllItems} = useContext(ItemsDataContext);
+const {allItems} = useContext(ItemsDataContext);
 
 const [value, setValue] = useState("");
 const [search,setSearch] =useState(false);
@@ -17,23 +19,31 @@ const matchedSuggestions = allItems?.filter((item) => {
     return item.name.toLowerCase().includes(value.toLowerCase())
 });
 
+const myFunc = (ev) => {
+    ev.preventDefault();
+    navigate(`/${value}`)
+}
 ///if user chose the item from typeahead suggestion list, he navigates to item page
 let navigate = useNavigate();
 
   return (
       <Wrapper>
-        <Form > 
+        <Form onSubmit={myFunc}> 
         <FiSearch/>
-       
         <Input 
         onChange={(ev) => {
             setValue(ev.target.value);
-             setSearch(false)}} 
+             setSearch(false)
+            }} 
         type="text" 
         placeholder="Search" 
         value={value}/>
-        <Input type="submit" 
-        value="Search"/>
+        <Input 
+        // onClick={() => navigate("/search")}
+        type="submit" 
+        value="Search"
+        
+        />
 
         {/* Clear searchbar */}
         <MdClear onClick={() => setValue("")}/>
@@ -49,8 +59,6 @@ let navigate = useNavigate();
                   setSearch(!search)
                   }}>{suggestion.name}</Li>
               )
-           
-            
         })} </Ul>:null}
         </Form>
       </Wrapper>

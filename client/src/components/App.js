@@ -15,6 +15,7 @@ import Medical from "./Nav/Medical";
 import Other from "./Nav/Other";
 import Header from "./Header";
 import About from "./About";
+import SearchResults from "./SearchResults";
 
 const App = () => {
   return (
@@ -34,6 +35,7 @@ const App = () => {
             <Route path="/item/:itemId" element={<ItemDetails />} />
             <Route path="/cart" element={<Cart />} />
             <Route path="/about" element={<About />} />
+            <Route path="/:search" element={<SearchResults />} />
           </Routes>
         </Container>
         <Footer />
