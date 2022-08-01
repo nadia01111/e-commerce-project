@@ -133,6 +133,7 @@ const createCart = async (req, res) => {
 const addItemToCart = async (req, res) => {
   const _id = req.body.cartId;
   const item = req.body;
+  console.log(item);
 
   const client = new MongoClient(MONGO_URI, options);
   await client.connect();

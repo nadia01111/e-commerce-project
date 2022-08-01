@@ -5,14 +5,16 @@ export const ItemsDataContext = createContext(null);
 export const ItemsDataProvider = ({ children }) => {
   const [allItems, setAllItems] = useState(null);
 
-  const cartId = localStorage.getItem("cartId");
+  const cartId = localStorage.getItem("cartID");
 
   useEffect(() => {
     if (cartId === null) {
       fetch(`/createCart`)
         .then((res) => res.json())
         .then((data) => {
-          localStorage.setItem("cartID", data.data.insertedId);
+          JSON.stringify(
+            localStorage.setItem("cartID", JSON.stringify(data.data.insertedId))
+          );
         });
     }
   }, []);

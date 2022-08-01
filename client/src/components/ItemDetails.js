@@ -9,6 +9,8 @@ const ItemDetails = () => {
   const [item, setItem] = useState(null);
   const [status, setStatus] = useState("loading");
 
+  const [postedItem, setPostedItem] = useState(null);
+
   //fetch to specific item id.
   useEffect(() => {
     fetch(`/getItem/${itemId}`)
@@ -22,6 +24,22 @@ const ItemDetails = () => {
         setStatus("error");
       });
   }, [itemId]);
+
+  const handleClick = () => {
+    console.log(item);
+    fetch("/addItemToCart", {
+      method: "POST",
+      body: JSON.stringify({
+        ...item,
+        cartId: JSON.parse(localStorage.getItem(`cartID`)),
+      }),
+      headers: { "Content-Type": "application/json" },
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        setPostedItem(data.data);
+      });
+  };
 
   if (status === "loading") {
     return <div>loading</div>;
@@ -39,7 +57,7 @@ const ItemDetails = () => {
           <strong>{item.price}</strong>
         </Price>
         {item.numInStock > 0 ? (
-          <AddToCart>Add to Cart</AddToCart>
+          <AddToCart onClick={handleClick}>Add to Cart</AddToCart>
         ) : (
           <AddToCart disabled>Item out of stock</AddToCart>
         )}
