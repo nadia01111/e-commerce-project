@@ -9,8 +9,8 @@ import { useNavigate } from "react-router-dom";
 const SearchBar = () => {
 const {allItems,setAllItems} = useContext(ItemsDataContext);
 
-const [value, setValue] = useState("")
-
+const [value, setValue] = useState("");
+const [search,setSearch] =useState(false);
 /// typeahead in search field
 //find mathcing with the search bar input 
 const matchedSuggestions = allItems?.filter((item) => {
@@ -26,7 +26,9 @@ let navigate = useNavigate();
         <FiSearch/>
        
         <Input 
-        onChange={(ev) => setValue(ev.target.value)} 
+        onChange={(ev) => {
+            setValue(ev.target.value);
+             setSearch(false)}} 
         type="text" 
         placeholder="Search" 
         value={value}/>
@@ -39,14 +41,13 @@ let navigate = useNavigate();
         {value?.length>=2 && matchedSuggestions?.length>0 ?
         
         <Ul> { 
-            matchedSuggestions.slice(0,15).map((suggestion) => {
-              return (
-                <Li key={suggestion._id} 
-                onClick={()=>
-                {navigate(`/item/${suggestion._id}`);
-                setValue(suggestion.name)
-                }}>
-                {suggestion.name}</Li>
+            !search && matchedSuggestions.slice(0,15).map((suggestion) => {
+                return (<Li 
+                  key={suggestion._id} 
+                  onClick={()=>{navigate(`/item/${suggestion._id}`); 
+                  setValue(suggestion.name); 
+                  setSearch(!search)
+                  }}>{suggestion.name}</Li>
               )
            
             
