@@ -182,31 +182,67 @@ const goCheckOut = async (req, res) => {
   const client = new MongoClient(MONGO_URI, options);
   await client.connect();
   try {
+    //find the Cart
     const db = client.db("E-Commerce_Project");
     const cartItems = await db
       .collection("Cart")
       .findOne({ _id: ObjectId(_id) });
 
+    if (cartItems === null || cartItems === undefined) {
+      return res.status(500).json({
+        status: 500,
+        message: "Cart not found",
+      });
+    }
+    
     orderItems = cartItems.items;
 
+    //update Item Data stock
+
+    orderItems.forEach(async (item) => {
+
+      //get the Item's actual stock data from Item Data collection
+      const findFromItem_data = await db
+        .collection("Item Data")
+        .findOne({ _id: item._id });
+      
+      // VALIDATION -> // check if there's enough stock
+      if (findFromItem_data!==null && (findFromItem_data.numInStock - item.amountBought) < 0) {
+        return res.status(500).json({
+        status: 500,
+        message: "Not enough stock",
+      });
+      }
+        // if everything is OK -> do the update based on actual stock information
+        await db.collection("Item Data").updateOne(
+          { _id: item._id },
+          {
+            $set: {
+              ...item,
+              numInStock: findFromItem_data.numInStock - item.amountBought,
+            },
+          }
+        );
+    });
+
+    // Generate an Order
     const orderId = await db
       .collection("Orders")
       .insertOne({ orderItems: orderItems });
-    let uniqueId = orderId.insertedId.toString();
 
+    let uniqueId = orderId.insertedId.toString();
     console.log(uniqueId);
 
+    //Find the correct Order
     const newOrder = await db
       .collection("Orders")
       .findOne({ _id: ObjectId(uniqueId) });
-
-    //Update the stock for the Item
 
     console.log(newOrder);
     return res.status(200).json({
       status: 200,
       data: newOrder,
-      message: "item removed",
+      message: "Purchase attempt was successful",
     });
   } catch (err) {
     console.log(err.message);
