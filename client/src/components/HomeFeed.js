@@ -9,8 +9,6 @@ const {allItems,setAllItems} = useContext(ItemsDataContext);
 
 /// display 18 random items on home page
 
-
-
 if (allItems) {
   let randomItemArr = [];
   for (let counter = 0; counter < 18; counter++) {
