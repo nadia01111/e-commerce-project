@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { useState } from "react";
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
+import { FiLoader } from "react-icons/fi";
 import {
   AiFillInstagram,
   AiFillApple,
@@ -63,7 +64,13 @@ const Footer = () => {
       </>
     );
   } else {
-    return <div>Loading</div>;
+    return (
+      <LoaderWrapper>
+        <Icon>
+          <FiLoader style={{ height: "30px", width: "30px" }} />
+        </Icon>
+      </LoaderWrapper>
+    );
   }
 };
 
@@ -112,4 +119,27 @@ const OurApp = styled.div`
   flex-direction: column;
   padding: 15px;
   color: white;
+`;
+
+const LoaderWrapper = styled.div`
+  height: 500px;
+`;
+
+const turning = keyframes`
+        0% {
+            transform: rotate(0deg);
+        }
+
+        100% {
+            transform: rotate(360deg);
+        }
+    `;
+
+const Icon = styled.div`
+  position: absolute;
+  width: 30px;
+  height: 30px;
+  top: 49%;
+  left: 49%;
+  animation: ${turning} 1000ms infinite linear;
 `;
