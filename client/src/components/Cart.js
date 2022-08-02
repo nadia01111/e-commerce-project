@@ -17,9 +17,6 @@ const Cart = ({ postedItem }) => {
 
   // handle to navigate when clicking checkout
   let nav = useNavigate();
-  const handleNav = () => {
-    nav("/orderconfirm");
-  };
 
   //useEffect for getting items stored inside current cart collection
   useEffect(() => {
@@ -66,7 +63,9 @@ const Cart = ({ postedItem }) => {
       {cartItem.length > 0 ? (
         <CartAndCheckout>
           <PageName>Shopping Cart</PageName>
-          <Checkout onClick={handleNav}>Proceed to checkout</Checkout>
+          <Checkout onClick={() => nav("/checkout")}>
+            Proceed to checkout
+          </Checkout>
         </CartAndCheckout>
       ) : (
         <EmptyCart>Empty Cart</EmptyCart>
