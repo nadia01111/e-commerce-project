@@ -401,7 +401,54 @@ const getAllOrders = async (req, res) => {
     client.close();
   }
 };
+//-----------------------------------------------------------------------------------------------------
+// modifies the stock amount bought to update the itme data (stock)
+//-----------------------------------------------------------------------------------------------------
+const getUpdatedCart = async () => {
+  const arr = req.body.items;
+  const id = req.body.cartId;
 
+  const client = new MongoClient(MONGO_URI, options);
+  await client.connect();
+
+  try {
+    const db = client.db("E-Commerce_Project");
+
+    //checks if said Cart with CartId exists
+    const validateCart = await db
+      .collection("Cart")
+      .findOne({ _id: ObjectId(id) });
+
+    if (validateCart !== null) {
+      arr.forEach(async (item) => {
+        await db
+          .collection("Cart")
+          .updateOne(
+            {
+              _id: ObjectId(id),
+              "items.amountBought": validateCart.amountBought,
+            },
+            { $set: { "items.$.amountBought": item.amountBought } }
+          );
+      });
+      return res.status(201).json({
+        status: 201,
+        data: item,
+        message: `Items inside cart with ID ${id} have been removed.`,
+      });
+    } else {
+      return res.status(404).json({
+        status: 404,
+        data: _id,
+        message: `Cart with ID ${id} was not found.`,
+      });
+    }
+  } catch (err) {
+    console.log(err.message);
+  } finally {
+    client.close();
+  }
+};
 module.exports = {
   getItems,
   getItemById,
@@ -413,4 +460,5 @@ module.exports = {
   getCartItems,
   getAllOrders,
   getLatestOrder,
+  getUpdatedCart,
 };

@@ -31,12 +31,21 @@ const Cart = () => {
       });
   }, [remove, postedItem]);
 
-  console.log(cartItems);
-  //for setting the amounts array to be the same length as cart items to store changed quantity value
-  // useEffect(async () => {
-  //   await setAmount(new Array(cartItems?.length).fill(1));
-  // }, [cartItems]);
-
+  //handler for updating stock
+  const handleUpdate = () => {
+    fetch("/getUpdateCart", {
+      method: "PATCH",
+      body: JSON.stringify({
+        items: cartItems,
+        cartId: cart,
+      }),
+      headers: { "Content-Type": "application/json" },
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data);
+      });
+  };
   //handler for deleting specific item onClick
   const handleDelete = (specificItem) => {
     fetch(`/deleteItemFromCart`, {
@@ -69,7 +78,12 @@ const Cart = () => {
       {cartItems.length > 0 ? (
         <CartAndCheckout>
           <PageName>Shopping Cart</PageName>
-          <Checkout onClick={() => nav("/checkout")}>
+          <Checkout
+            onClick={() => {
+              handleUpdate();
+              nav("/checkout");
+            }}
+          >
             Proceed to checkout
           </Checkout>
         </CartAndCheckout>

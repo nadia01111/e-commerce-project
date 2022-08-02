@@ -13,6 +13,7 @@ const {
   getCartItems,
   getAllOrders,
   getLatestOrder,
+  getUpdatedCart,
 } = require("./handlers");
 
 const PORT = 4000;
@@ -57,5 +58,7 @@ express()
   .get("/getAllOrders", getAllOrders)
   // get the most recent order that was placed
   .get("/getLatestOrder", getLatestOrder)
+  // gets the updated cart so it can update stock properly
+  .get("/getUpdateCart", getUpdatedCart)
 
   .listen(PORT, () => console.info(`Listening on port ${PORT}`));
