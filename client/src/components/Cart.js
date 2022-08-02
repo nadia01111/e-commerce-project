@@ -2,6 +2,7 @@ import React from "react";
 import { useEffect, useState } from "react";
 import styled, { keyframes } from "styled-components";
 import { FiLoader } from "react-icons/fi";
+import { useNavigate, useParams } from "react-router-dom";
 
 const Cart = ({ postedItem }) => {
   //all items cintained inside array cartItem
@@ -13,6 +14,12 @@ const Cart = ({ postedItem }) => {
 
   //contains item recently removed, serves as flag to reluanch useEffect
   const [remove, setRemove] = useState(null);
+
+  // handle to navigate when clicking checkout
+  let nav = useNavigate();
+  const handleNav = () => {
+    nav("/orderconfirm");
+  };
 
   //useEffect for getting items stored inside current cart collection
   useEffect(() => {
@@ -57,7 +64,10 @@ const Cart = ({ postedItem }) => {
   return (
     <Wrapper>
       {cartItem.length > 0 ? (
-        <PageName>Shopping Cart</PageName>
+        <CartAndCheckout>
+          <PageName>Shopping Cart</PageName>
+          <Checkout onClick={handleNav}>Proceed to checkout</Checkout>
+        </CartAndCheckout>
       ) : (
         <EmptyCart>Empty Cart</EmptyCart>
       )}
@@ -105,6 +115,21 @@ const Container = styled.div`
 const Wrap = styled.div`
   display: flex;
   padding: 25px;
+`;
+
+const CartAndCheckout = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+`;
+
+const Checkout = styled.button`
+  margin-bottom: 25px;
+  margin-right: 80px;
+  border: none;
+  background: gold;
+  padding: 12px 10px;
+  border-radius: 5px;
 `;
 
 const EmptyCart = styled.div`
