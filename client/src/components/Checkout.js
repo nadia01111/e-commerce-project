@@ -6,19 +6,20 @@ import { FiLoader } from "react-icons/fi";
 import { useNavigate } from "react-router-dom";
 
 const Checkout = () => {
-  // for setting user data for conf page---------------------------------
-  const { userData, setUserData } = useContext(ItemsDataContext);
-  //for storing cart items to access price-------------------------------
-  const [cartItems, setCartItems] = useState(null);
+  // for setting user data for conf page + amount cost------------------
+  const { userData, setUserData, cartItems, setCartItems, amount } =
+    useContext(ItemsDataContext);
+
   //flag for rendering total after delay
   const [flag, setFlag] = useState(false);
   // gets cart ID from local storage and stores it into cart var---------
   const cart = JSON.parse(localStorage.getItem(`cartID`));
   const nav = useNavigate();
 
+  console.log(cartItems);
   const handleCheckout = () => {
     fetch("/goToCheckOut")
-      .then((res) => res.json())
+      .then((res) => res.json()) ///should have a body passed to BE to fetch cart ID
       .then((data) => {
         console.log(data.data);
       })
@@ -32,17 +33,6 @@ const Checkout = () => {
     }, 1500);
   }, []);
 
-  useEffect(() => {
-    fetch(`/getCartItems/${cart}`)
-      .then((res) => res.json())
-      .then((data) => {
-        setCartItems(data.data);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }, []);
-
   if (cartItems === null) {
     return (
       <Icon>
@@ -52,8 +42,11 @@ const Checkout = () => {
   } else {
     //gets the prices of all items inside cart
     const arrOfCost = cartItems.map((item) => {
-      return Number(item.price.replace(/[^0-9.-]+/g, ""));
+      return (
+        Number(item.price.replace(/[^0-9.-]+/g, "")) * Number(item.amountBought)
+      );
     });
+    console.log(arrOfCost);
 
     let cost = 0;
     for (let x = 0; x <= arrOfCost.length - 1; x++) {
