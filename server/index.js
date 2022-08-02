@@ -50,6 +50,6 @@ express()
   // deletes itemId from user's cart
   .delete("/deleteItemToCart", deleteItemFromCart)
   // retrieves items from Cart
-  .get("/getCartItems", getCartItems)
+  .get("/getCartItems/:cartId", getCartItems)
 
   .listen(PORT, () => console.info(`Listening on port ${PORT}`));

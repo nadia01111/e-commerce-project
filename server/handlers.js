@@ -194,35 +194,37 @@ const goCheckOut = async (req, res) => {
         message: "Cart not found",
       });
     }
-    
+
     orderItems = cartItems.items;
 
     //update Item Data stock
 
     orderItems.forEach(async (item) => {
-
       //get the Item's actual stock data from Item Data collection
       const findFromItem_data = await db
         .collection("Item Data")
         .findOne({ _id: item._id });
-      
+
       // VALIDATION -> // check if there's enough stock
-      if (findFromItem_data!==null && (findFromItem_data.numInStock - item.amountBought) < 0) {
+      if (
+        findFromItem_data !== null &&
+        findFromItem_data.numInStock - item.amountBought < 0
+      ) {
         return res.status(500).json({
-        status: 500,
-        message: "Not enough stock",
-      });
+          status: 500,
+          message: "Not enough stock",
+        });
       }
-        // if everything is OK -> do the update based on actual stock information
-        await db.collection("Item Data").updateOne(
-          { _id: item._id },
-          {
-            $set: {
-              ...item,
-              numInStock: findFromItem_data.numInStock - item.amountBought,
-            },
-          }
-        );
+      // if everything is OK -> do the update based on actual stock information
+      await db.collection("Item Data").updateOne(
+        { _id: item._id },
+        {
+          $set: {
+            ...item,
+            numInStock: findFromItem_data.numInStock - item.amountBought,
+          },
+        }
+      );
     });
 
     // Generate an Order
@@ -295,10 +297,11 @@ const deleteItemFromCart = async (req, res) => {
 // gets all of the items that are currently in the cart
 //-----------------------------------------------------------------------------------------------------
 const getCartItems = async (req, res) => {
-  const cartId = req.body.cartId;
+  const cartId = req.params.cartId;
   const client = new MongoClient(MONGO_URI, options);
   await client.connect();
 
+  console.log(cartId);
   try {
     const db = client.db("E-Commerce_Project");
 

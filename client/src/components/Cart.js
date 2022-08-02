@@ -10,7 +10,7 @@ const Cart = () => {
     fetch(`/getCartItems/${cart}`)
       .then((res) => res.json())
       .then((data) => {
-        setCartItem(data);
+        setCartItem(data.data);
         console.log(data);
         setStatus("idle");
       })
