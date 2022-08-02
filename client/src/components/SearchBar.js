@@ -19,7 +19,8 @@ const matchedSuggestions = allItems?.filter((item) => {
     return item.name.toLowerCase().includes(value.toLowerCase())
 });
 
-const myFunc = (ev) => {
+// function on form submit which redirects to searchresults page
+const showSearchResults = (ev) => {
     ev.preventDefault();
     navigate(`/${value}`)
 }
@@ -28,7 +29,7 @@ let navigate = useNavigate();
 
   return (
       <Wrapper>
-        <Form onSubmit={myFunc}> 
+        <Form onSubmit={showSearchResults}> 
         <FiSearch/>
         <Input 
         onChange={(ev) => {
