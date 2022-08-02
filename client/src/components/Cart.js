@@ -4,12 +4,17 @@ import styled, { keyframes } from "styled-components";
 import { FiLoader } from "react-icons/fi";
 
 const Cart = ({ postedItem }) => {
+  //all items cintained inside array cartItem
   const [cartItem, setCartItem] = useState(null);
+  //used for loading state
   const [status, setStatus] = useState("loading");
+  // gets cart ID from local storage and stores it into cart var
   const cart = JSON.parse(localStorage.getItem(`cartID`));
 
+  //contains item recently removed, serves as flag to reluanch useEffect
   const [remove, setRemove] = useState(null);
 
+  //useEffect for getting items stored inside current cart collection
   useEffect(() => {
     fetch(`/getCartItems/${cart}`)
       .then((res) => res.json())
@@ -23,12 +28,12 @@ const Cart = ({ postedItem }) => {
       });
   }, [remove, postedItem]);
 
-  const handleDelete = () => {
-    console.log(cartItem);
+  //handler for deleting specific item onClick
+  const handleDelete = (specificItem) => {
     fetch(`/deleteItemFromCart`, {
       method: "DELETE",
       body: JSON.stringify({
-        data: cartItem._id,
+        ...specificItem,
         cartId: cart,
       }),
       headers: { "Content-Type": "application/json" },
@@ -38,7 +43,7 @@ const Cart = ({ postedItem }) => {
         setRemove(data);
       });
   };
-
+  //loading state
   if (status === "loading") {
     return (
       <LoaderWrapper>
@@ -70,7 +75,9 @@ const Cart = ({ postedItem }) => {
                 ) : (
                   <div style={{ color: "gray" }}>out of stock</div>
                 )}
-                <Delete onClick={handleDelete}>Remove from cart</Delete>
+                <Delete onClick={() => handleDelete(item)}>
+                  Remove from cart
+                </Delete>
               </NameDelete>
             </Wrap>
             <Price>{item.price}</Price>

@@ -343,7 +343,7 @@ const getLatestOrder = async (req, res) => {
     // checks if Order contains the provided order ID
     const allOrders = await db.collection("Orders").find().toArray();
 
-    if ((allOrders, length > 0)) {
+    if (allOrders.length > 0) {
       await db.collection("Cart").findOne();
 
       return res.status(200).json({
