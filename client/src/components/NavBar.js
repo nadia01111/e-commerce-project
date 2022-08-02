@@ -55,7 +55,7 @@ const Options = styled(NavLink)`
   }
 
   &.active {
-    color: blue;
+    color: var(--color-green);
     opacity: 1;
   }
 `;

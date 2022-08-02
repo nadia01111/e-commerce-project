@@ -105,7 +105,10 @@ const Text = styled.div`
   height: 10vh;
 `;
 
-const LinkTo = styled(NavLink)``;
+const LinkTo = styled(NavLink)`
+  text-decoration: none;
+  color: black;
+`;
 
 const LoaderWrapper = styled.div`
   height: 500px;
