@@ -18,7 +18,7 @@ const Checkout = () => {
 
   const handleCheckout = () => {
     fetch("/goToCheckOut", {
-      method: "GET",
+      method: "PUT",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ cartId: cart }),
     })
