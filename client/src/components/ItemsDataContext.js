@@ -4,7 +4,13 @@ export const ItemsDataContext = createContext(null);
 
 export const ItemsDataProvider = ({ children }) => {
   const [allItems, setAllItems] = useState(null);
-
+  const [userData, setUserData] = useState({
+    firstName: "",
+    lastName: "",
+    email: "",
+    address: "",
+    phoneNummber: "",
+  });
   const cartId = localStorage.getItem("cartID");
 
   useEffect(() => {
@@ -32,6 +38,8 @@ export const ItemsDataProvider = ({ children }) => {
       value={{
         allItems,
         setAllItems,
+        userData,
+        setUserData,
       }}
     >
       {children}
