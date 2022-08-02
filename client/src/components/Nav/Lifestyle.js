@@ -64,14 +64,16 @@ const WrapImg = styled.div`
 const Wrapper = styled.div`
   display: flex;
   flex-wrap: wrap;
-  width: 100%;
-  margin-top: 10px;
-  margin-left: 80px;
-  margin-right: 80px;
+  max-width: 100%;
+  padding-top: 10px;
+  padding-left: 80px;
+  padding-right: 80px;
+  justify-content: center;
+  align-items: center;
 `;
 const Wrap = styled.div`
   border: 1px solid var(--color-navbar-beige);
-  width: calc(90vw / 7);
+  width: calc(98vw / 7);
   margin: 5px;
   padding: 5px;
   overflow: hidden;

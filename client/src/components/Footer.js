@@ -32,7 +32,7 @@ const Footer = () => {
       }
     }
     return (
-      <>
+      <div style={{ width: "100%" }}>
         <Info>Some brands we distribute</Info>
         <Container>
           {randomCompanies?.map((company) => {
@@ -60,7 +60,7 @@ const Footer = () => {
             </Icons>
           </OurApp>
         </ContactSection>
-      </>
+      </div>
     );
   } else {
     return (

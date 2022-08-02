@@ -10,7 +10,6 @@ const HomeFeed = () => {
 
   /// display 18 random items on home page
 
-
   if (allItems) {
     let randomItemArr = [];
     for (let counter = 0; counter < 18; counter++) {
@@ -18,13 +17,12 @@ const HomeFeed = () => {
       if (!randomItemArr.includes(allItems[randomIndex])) {
         randomItemArr.push(allItems[randomIndex]);
       }
-
     }
     return (
       <Wrapper>
         {randomItemArr?.map((item) => {
           return (
-            <Wrap key={item._id}  to={`/item/${item._id}`}>
+            <Wrap key={item._id} to={`/item/${item._id}`}>
               <WrapImg>
                 <Img src={item.imageSrc}></Img>
               </WrapImg>
@@ -62,16 +60,18 @@ const WrapImg = styled.div`
 const Wrapper = styled.div`
   display: flex;
   flex-wrap: wrap;
-  width: 100%;
-  margin-top: 10px;
-  margin-left: 80px;
-  margin-right: 80px;
+  max-width: 100%;
+  padding-top: 10px;
+  padding-left: 80px;
+  padding-right: 80px;
+  justify-content: center;
+  align-items: center;
 `;
 const Wrap = styled(Link)`
-  color: var( --color-black);
-  text-decoration:none;
+  color: var(--color-black);
+  text-decoration: none;
   border: 1px solid var(--color-navbar-beige);
-  width: calc(90vw / 7);
+  width: calc(98vw / 7);
   margin: 5px;
   padding: 5px;
   overflow: hidden;
