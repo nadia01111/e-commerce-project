@@ -11,8 +11,7 @@ const Cart = () => {
   // gets cart ID from local storage and stores it into cart var
   const cart = JSON.parse(localStorage.getItem(`cartID`));
   //for using posted item data -> rerender cart
-  const { postedItem, cartItems, setCartItems, setAmount, amount } =
-    useContext(ItemsDataContext);
+  const { postedItem, cartItems, setCartItems } = useContext(ItemsDataContext);
   //contains item recently removed, serves as flag to reluanch useEffect
   const [remove, setRemove] = useState(null);
 
@@ -34,9 +33,9 @@ const Cart = () => {
 
   console.log(cartItems);
   //for setting the amounts array to be the same length as cart items to store changed quantity value
-  useEffect(async () => {
-    await setAmount(new Array(cartItems?.length).fill(1));
-  }, [cartItems]);
+  // useEffect(async () => {
+  //   await setAmount(new Array(cartItems?.length).fill(1));
+  // }, [cartItems]);
 
   //handler for deleting specific item onClick
   const handleDelete = (specificItem) => {

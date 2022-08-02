@@ -1,12 +1,12 @@
-import { createContext, useEffect, useState } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 
 export const ItemsDataContext = createContext(null);
 
 export const ItemsDataProvider = ({ children }) => {
-  const [amount, setAmount] = useState(null);
   //all items contained inside array cartItem
   const [cartItems, setCartItems] = useState(null);
   const [allItems, setAllItems] = useState(null);
+  const [boolean, setBoolean] = useState(false);
   const [userData, setUserData] = useState({
     firstName: "",
     lastName: "",
@@ -27,7 +27,7 @@ export const ItemsDataProvider = ({ children }) => {
           );
         });
     }
-  }, []);
+  }, [boolean]);
 
   useEffect(() => {
     fetch(`/getItems`)
@@ -46,10 +46,10 @@ export const ItemsDataProvider = ({ children }) => {
         setUserData,
         postedItem,
         setPostedItem,
-        amount,
-        setAmount,
         cartItems,
         setCartItems,
+        boolean,
+        setBoolean,
       }}
     >
       {children}

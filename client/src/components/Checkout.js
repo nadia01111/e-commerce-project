@@ -6,8 +6,8 @@ import { FiLoader } from "react-icons/fi";
 import { useNavigate } from "react-router-dom";
 
 const Checkout = () => {
-  // for setting user data for conf page + amount cost------------------
-  const { userData, setUserData, cartItems, setCartItems, amount } =
+  // for setting user data for conf page + amount cost-------------------
+  const { userData, setUserData, cartItems, boolean, setBoolean } =
     useContext(ItemsDataContext);
 
   //flag for rendering total after delay
@@ -16,10 +16,13 @@ const Checkout = () => {
   const cart = JSON.parse(localStorage.getItem(`cartID`));
   const nav = useNavigate();
 
-  console.log(cartItems);
   const handleCheckout = () => {
-    fetch("/goToCheckOut")
-      .then((res) => res.json()) ///should have a body passed to BE to fetch cart ID
+    fetch("/goToCheckOut", {
+      method: "GET",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ cartId: cart }),
+    })
+      .then((res) => res.json())
       .then((data) => {
         console.log(data.data);
       })
@@ -27,6 +30,7 @@ const Checkout = () => {
         console.log(err);
       });
   };
+
   useEffect(() => {
     setTimeout(() => {
       setFlag(!flag);
@@ -65,6 +69,8 @@ const Checkout = () => {
         </Instruc>
         <Form
           onSubmit={() => {
+            localStorage.removeItem("cartID");
+            setBoolean(!boolean);
             handleCheckout();
             setUserData({
               name: "",
