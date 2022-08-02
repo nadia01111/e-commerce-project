@@ -7,46 +7,50 @@ import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 
 const Header = () => {
-    
-const [screenWidth, setScreenWidth] = useState(window.screen.width);
-    
+  const [screenWidth, setScreenWidth] = useState(window.screen.width);
 
   return (
     <Wrapper>
-      <Logo to="/"><h1>GFKN</h1></Logo>
+      <Logo to="/">
+        <h1>GFKN</h1>
+      </Logo>
       <SearchBar />
-    {screenWidth>600
-        ?<Wrapper1>
-            <Cart to="/cart"><AiOutlineShoppingCart/></Cart>
-            <About to="/about"><h4>About</h4></About>
-            <LogIn to="/login"><h4>Login</h4></LogIn>
+      {screenWidth > 600 ? (
+        <Wrapper1>
+          <Cart to="/cart">
+            <AiOutlineShoppingCart />
+          </Cart>
+          <About to="/about">
+            <h4>About</h4>
+          </About>
+          <LogIn to="/login">
+            <h4>Login</h4>
+          </LogIn>
         </Wrapper1>
-        :<Menu><AiOutlineMenu/></Menu>
-        }
-      
+      ) : (
+        <Menu>
+          <AiOutlineMenu />
+        </Menu>
+      )}
     </Wrapper>
   );
 };
 
-
-const Menu = styled.div`
-
-`;
+const Menu = styled.div``;
 const Cart = styled(Link)`
-color:inherit;
-:hover{
+  color: inherit;
+  :hover {
     display: inline;
     border-bottom: 3px solid var(--color-navbar-beige);
-}
+  }
 `;
 const Wrapper = styled.div`
   height: 80px;
-  width: 100vw;;
+  width: 100%;
   display: flex;
   justify-content: space-between;
   align-items: center;
   min-height: 48px;
-  
 `;
 const Wrapper1 = styled.div`
   display: flex;
@@ -56,25 +60,24 @@ const Wrapper1 = styled.div`
 `;
 
 const Logo = styled(NavLink)`
-margin-left:40px;
-text-decoration:none;
-color:var(--color-black);
-cursor: pointer;
+  margin-left: 40px;
+  text-decoration: none;
+  color: var(--color-black);
+  cursor: pointer;
 `;
 const About = styled(NavLink)`
-text-decoration:none;
-color:var(--color-black);
-:hover {
+  text-decoration: none;
+  color: var(--color-black);
+  :hover {
     display: inline;
     border-bottom: 3px solid var(--color-navbar-beige);
-
-}
+  }
 `;
 
 const LogIn = styled(NavLink)`
-color:var(--color-black);
-text-decoration:none;
-margin-right:10px;
+  color: var(--color-black);
+  text-decoration: none;
+  margin-right: 10px;
   background: none;
   border: none;
   padding: 0;
@@ -86,7 +89,6 @@ margin-right:10px;
   :hover {
     background-color: var(--color-black);
     color: var(--color-navbar-beige);
-
   }
 `;
 

@@ -71,11 +71,15 @@ const WrapImg = styled.div`
 
 const Wrapper = styled.div`
   display: flex;
+  height: 100%;
+  min-height: 450px;
   flex-wrap: wrap;
-  width: 100%;
-  margin-top: 10px;
-  margin-left: 80px;
-  margin-right: 80px;
+  max-width: 100%;
+  padding-top: 10px;
+  padding-left: 80px;
+  padding-right: 80px;
+  justify-content: center;
+  align-items: center;
 `;
 const Wrap = styled.div`
   border: 1px solid var(--color-navbar-beige);

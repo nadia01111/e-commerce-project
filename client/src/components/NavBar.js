@@ -26,7 +26,7 @@ const Wrapper = styled.div`
   font-weight: bold;
   background: var(--color-navbar-beige);
   box-shadow: 1px 6px 6px -6px gray;
-  width: 100vw;
+  width: 100%;
 `;
 
 const Nav = styled.div`
