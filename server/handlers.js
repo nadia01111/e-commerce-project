@@ -277,7 +277,7 @@ const deleteItemFromCart = async (req, res) => {
       return res.status(200).json({
         status: 200,
         data: item,
-        message: `Item with ID ${item._id}.`,
+        message: `Item with ID ${item._id} was deleted.`,
       });
     } else {
       return res.status(404).json({
@@ -331,6 +331,75 @@ const getCartItems = async (req, res) => {
   }
 };
 
+//-----------------------------------------------------------------------------------------------------
+// gets latest order that has been placed in the orders DB
+//-----------------------------------------------------------------------------------------------------
+const getLatestOrder = async (req, res) => {
+  const client = new MongoClient(MONGO_URI, options);
+  await client.connect();
+
+  try {
+    const db = client.db("E-Commerce_Project");
+    // checks if Order contains the provided order ID
+    const allOrders = await db.collection("Orders").find().toArray();
+
+    if ((allOrders, length > 0)) {
+      await db.collection("Cart").findOne();
+
+      return res.status(200).json({
+        status: 200,
+        data: allOrders[allOrders.length - 1],
+        message: "You are now viewing order with ID ${cartId}.",
+      });
+    } else {
+      return res.status(404).json({
+        status: 404,
+        data: allOrders,
+        message: `Cart with ID ${cartId} does not exist.`,
+      });
+    }
+  } catch (err) {
+    console.log(err.message);
+  } finally {
+    client.close();
+  }
+};
+
+//-----------------------------------------------------------------------------------------------------
+// gets all orders that have been placed in the orders DB
+//-----------------------------------------------------------------------------------------------------
+const getAllOrders = async (req, res) => {
+  const client = new MongoClient(MONGO_URI, options);
+  await client.connect();
+
+  try {
+    const db = client.db("E-Commerce_Project");
+
+    // retrieves all orders
+    const allOrders = await db.collection("Orders").find().toArray();
+
+    if ((allOrders, length > 0)) {
+      await db.collection("Cart").findOne();
+
+      return res.status(200).json({
+        status: 200,
+        data: allOrders,
+        message: "You are now viewing order with ID ${cartId}.",
+      });
+    } else {
+      return res.status(404).json({
+        status: 404,
+        data: allOrders,
+        message: `Cart with ID ${cartId} does not exist.`,
+      });
+    }
+  } catch (err) {
+    console.log(err.message);
+  } finally {
+    client.close();
+  }
+};
+
 module.exports = {
   getItems,
   getItemById,
@@ -340,4 +409,6 @@ module.exports = {
   deleteItemFromCart,
   goCheckOut,
   getCartItems,
+  getAllOrders,
+  getLatestOrder,
 };
