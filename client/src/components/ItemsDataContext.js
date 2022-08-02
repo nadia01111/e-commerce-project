@@ -23,7 +23,6 @@ export const ItemsDataProvider = ({ children }) => {
     fetch(`/getItems`)
       .then((res) => res.json())
       .then((data) => {
-        console.log(data.data);
         setAllItems(data.data);
       });
   }, []);
