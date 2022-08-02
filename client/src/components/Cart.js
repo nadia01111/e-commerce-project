@@ -6,14 +6,13 @@ import { useNavigate, useParams } from "react-router-dom";
 import { ItemsDataContext } from "./ItemsDataContext";
 
 const Cart = () => {
-  //all items cintained inside array cartItem
-  const [cartItem, setCartItem] = useState(null);
   //used for loading state
   const [status, setStatus] = useState("loading");
   // gets cart ID from local storage and stores it into cart var
   const cart = JSON.parse(localStorage.getItem(`cartID`));
   //for using posted item data -> rerender cart
-  const { postedItem } = useContext(ItemsDataContext);
+  const { postedItem, cartItems, setCartItems, setAmount, amount } =
+    useContext(ItemsDataContext);
   //contains item recently removed, serves as flag to reluanch useEffect
   const [remove, setRemove] = useState(null);
 
@@ -25,14 +24,19 @@ const Cart = () => {
     fetch(`/getCartItems/${cart}`)
       .then((res) => res.json())
       .then((data) => {
-        setCartItem(data.data);
-        console.log(data.data);
+        setCartItems(data.data);
         setStatus("idle");
       })
       .catch((err) => {
         setStatus("error");
       });
   }, [remove, postedItem]);
+
+  console.log(cartItems);
+  //for setting the amounts array to be the same length as cart items to store changed quantity value
+  useEffect(async () => {
+    await setAmount(new Array(cartItems?.length).fill(1));
+  }, [cartItems]);
 
   //handler for deleting specific item onClick
   const handleDelete = (specificItem) => {
@@ -49,6 +53,7 @@ const Cart = () => {
         setRemove(data);
       });
   };
+
   //loading state
   if (status === "loading") {
     return (
@@ -62,7 +67,7 @@ const Cart = () => {
 
   return (
     <Wrapper>
-      {cartItem.length > 0 ? (
+      {cartItems.length > 0 ? (
         <CartAndCheckout>
           <PageName>Shopping Cart</PageName>
           <Checkout onClick={() => nav("/checkout")}>
@@ -72,7 +77,7 @@ const Cart = () => {
       ) : (
         <EmptyCart>Empty Cart</EmptyCart>
       )}
-      {cartItem?.map((item) => {
+      {cartItems?.map((item, index) => {
         const length = item.numInStock;
         const newArr = new Array(length).fill(1);
         return (
@@ -86,7 +91,11 @@ const Cart = () => {
                 {item.numInStock > 0 ? (
                   <>
                     <InStock>In stock</InStock>
-                    <Select>
+                    <Select
+                      onChange={(ev) => {
+                        item.amountBought = ev.target.value;
+                      }}
+                    >
                       {newArr.slice(0, 10).map((element, index) => {
                         return <option value={index + 1}>{index + 1}</option>;
                       })}

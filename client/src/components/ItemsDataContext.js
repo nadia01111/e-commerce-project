@@ -3,6 +3,9 @@ import { createContext, useEffect, useState } from "react";
 export const ItemsDataContext = createContext(null);
 
 export const ItemsDataProvider = ({ children }) => {
+  const [amount, setAmount] = useState(null);
+  //all items contained inside array cartItem
+  const [cartItems, setCartItems] = useState(null);
   const [allItems, setAllItems] = useState(null);
   const [userData, setUserData] = useState({
     firstName: "",
@@ -43,6 +46,10 @@ export const ItemsDataProvider = ({ children }) => {
         setUserData,
         postedItem,
         setPostedItem,
+        amount,
+        setAmount,
+        cartItems,
+        setCartItems,
       }}
     >
       {children}
