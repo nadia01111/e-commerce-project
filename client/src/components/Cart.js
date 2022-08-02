@@ -1,17 +1,19 @@
 import React from "react";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import styled, { keyframes } from "styled-components";
 import { FiLoader } from "react-icons/fi";
 import { useNavigate, useParams } from "react-router-dom";
+import { ItemsDataContext } from "./ItemsDataContext";
 
-const Cart = ({ postedItem }) => {
+const Cart = () => {
   //all items cintained inside array cartItem
   const [cartItem, setCartItem] = useState(null);
   //used for loading state
   const [status, setStatus] = useState("loading");
   // gets cart ID from local storage and stores it into cart var
   const cart = JSON.parse(localStorage.getItem(`cartID`));
-
+  //for using posted item data -> rerender cart
+  const { postedItem } = useContext(ItemsDataContext);
   //contains item recently removed, serves as flag to reluanch useEffect
   const [remove, setRemove] = useState(null);
 
@@ -71,6 +73,8 @@ const Cart = ({ postedItem }) => {
         <EmptyCart>Empty Cart</EmptyCart>
       )}
       {cartItem?.map((item) => {
+        const length = item.numInStock;
+        const newArr = new Array(length).fill(1);
         return (
           <Container>
             <Wrap>
@@ -80,7 +84,14 @@ const Cart = ({ postedItem }) => {
               <NameDelete>
                 <ItemName>{item.name}</ItemName>
                 {item.numInStock > 0 ? (
-                  <InStock>In stock</InStock>
+                  <>
+                    <InStock>In stock</InStock>
+                    <Select>
+                      {newArr.slice(0, 10).map((element, index) => {
+                        return <option value={index + 1}>{index + 1}</option>;
+                      })}
+                    </Select>
+                  </>
                 ) : (
                   <div style={{ color: "gray" }}>out of stock</div>
                 )}
@@ -96,6 +107,11 @@ const Cart = ({ postedItem }) => {
     </Wrapper>
   );
 };
+
+const Select = styled.select`
+  margin-top: 15px;
+  width: 40px;
+`;
 
 const Wrapper = styled.div`
   display: flex;

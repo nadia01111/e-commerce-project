@@ -11,6 +11,7 @@ export const ItemsDataProvider = ({ children }) => {
     address: "",
     phoneNummber: "",
   });
+  const [postedItem, setPostedItem] = useState(null);
   const cartId = localStorage.getItem("cartID");
 
   useEffect(() => {
@@ -40,6 +41,8 @@ export const ItemsDataProvider = ({ children }) => {
         setAllItems,
         userData,
         setUserData,
+        postedItem,
+        setPostedItem,
       }}
     >
       {children}

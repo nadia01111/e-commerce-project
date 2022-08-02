@@ -13,8 +13,6 @@ const Fitness = () => {
       .then((res) => res.json())
       .then((data) => {
         setCategory(data.data);
-
-        console.log(data);
       });
   }, []);
 
