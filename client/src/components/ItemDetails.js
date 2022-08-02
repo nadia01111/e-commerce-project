@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import styled from "styled-components";
+import Cart from "./Cart";
 
 const ItemDetails = () => {
   //parmas to correct route/path in App.js
@@ -10,6 +11,8 @@ const ItemDetails = () => {
   const [status, setStatus] = useState("loading");
 
   const [postedItem, setPostedItem] = useState(null);
+
+  let nav = useNavigate();
 
   //fetch to specific item id.
   useEffect(() => {
@@ -26,7 +29,7 @@ const ItemDetails = () => {
   }, [itemId]);
 
   const handleClick = () => {
-    console.log(item);
+    nav("/cart");
     fetch("/addItemToCart", {
       method: "POST",
       body: JSON.stringify({
@@ -62,6 +65,9 @@ const ItemDetails = () => {
           <AddToCart disabled>Item out of stock</AddToCart>
         )}
       </PriceAndAdd>
+      <div style={{ display: "none" }}>
+        <Cart postedItem={postedItem} />
+      </div>
     </Wrapper>
   );
 };
@@ -81,6 +87,7 @@ const Location = styled.div`
 const Img = styled.img`
   height: 400px;
   width: 400px;
+  padding-bottom: 25px;
 `;
 
 const Price = styled.div`
