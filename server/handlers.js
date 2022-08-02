@@ -20,7 +20,6 @@ const getItems = async (req, res) => {
   try {
     const db = client.db("E-Commerce_Project");
     const items = await db.collection("Item Data").find().toArray();
-    // console.log(items);
     return res.status(200).json({
       status: 200,
       data: items,
@@ -133,7 +132,6 @@ const createCart = async (req, res) => {
 const addItemToCart = async (req, res) => {
   const _id = req.body.cartId;
   const item = req.body;
-  console.log(item);
 
   const client = new MongoClient(MONGO_URI, options);
   await client.connect();
@@ -233,14 +231,12 @@ const goCheckOut = async (req, res) => {
       .insertOne({ orderItems: orderItems });
 
     let uniqueId = orderId.insertedId.toString();
-    console.log(uniqueId);
 
     //Find the correct Order
     const newOrder = await db
       .collection("Orders")
       .findOne({ _id: ObjectId(uniqueId) });
 
-    console.log(newOrder);
     return res.status(200).json({
       status: 200,
       data: newOrder,
@@ -301,7 +297,6 @@ const getCartItems = async (req, res) => {
   const client = new MongoClient(MONGO_URI, options);
   await client.connect();
 
-  console.log(cartId);
   try {
     const db = client.db("E-Commerce_Project");
 
