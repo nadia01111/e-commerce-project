@@ -11,6 +11,8 @@ const {
   deleteItemFromCart,
   goCheckOut,
   getCartItems,
+  getAllOrders,
+  getLatestOrder,
 } = require("./handlers");
 
 const PORT = 4000;
@@ -48,8 +50,12 @@ express()
   // goes to CHECKOUT page and transfers items to Orders collection from Cart collection
   .put("/goToCheckOut", goCheckOut)
   // deletes itemId from user's cart
-  .delete("/deleteItemToCart", deleteItemFromCart)
+  .delete("/deleteItemFromCart", deleteItemFromCart)
   // retrieves items from Cart
   .get("/getCartItems/:cartId", getCartItems)
+  // get all orders in DB
+  .get("/getAllOrders", getAllOrders)
+  // get the most recent order that was placed
+  .get("/getLatestOrder", getLatestOrder)
 
   .listen(PORT, () => console.info(`Listening on port ${PORT}`));
