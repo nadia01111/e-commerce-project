@@ -25,7 +25,7 @@ const Cart = ({ postedItem }) => {
 
   const handleDelete = () => {
     console.log(cartItem);
-    fetch(`/deleteItemToCart`, {
+    fetch(`/deleteItemFromCart`, {
       method: "DELETE",
       body: JSON.stringify({
         data: cartItem._id,
