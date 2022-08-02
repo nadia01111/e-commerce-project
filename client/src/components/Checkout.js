@@ -16,6 +16,16 @@ const Checkout = () => {
   const cart = JSON.parse(localStorage.getItem(`cartID`));
   const nav = useNavigate();
 
+  const handleCheckout = () => {
+    fetch("/goToCheckOut")
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
   useEffect(() => {
     setTimeout(() => {
       setFlag(!flag);
@@ -45,9 +55,6 @@ const Checkout = () => {
       return Number(item.price.replace(/[^0-9.-]+/g, ""));
     });
 
-    // const arrOfCost = [7.95, 8.05, 9.0, 50.0];
-
-    //adds all costs and stores them in 'cost'
     let cost = 0;
     for (let x = 0; x <= arrOfCost.length - 1; x++) {
       cost += arrOfCost[x];
@@ -65,6 +72,7 @@ const Checkout = () => {
         </Instruc>
         <Form
           onSubmit={() => {
+            handleCheckout();
             setUserData({
               name: "",
               lastName: "",

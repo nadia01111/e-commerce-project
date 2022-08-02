@@ -1,16 +1,15 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import styled from "styled-components";
 import Cart from "./Cart";
+import { ItemsDataContext } from "./ItemsDataContext";
 
 const ItemDetails = () => {
   //parmas to correct route/path in App.js
   const { itemId } = useParams();
-
+  const { postedItem, setPostedItem } = useContext(ItemsDataContext);
   const [item, setItem] = useState(null);
   const [status, setStatus] = useState("loading");
-
-  const [postedItem, setPostedItem] = useState(null);
 
   let nav = useNavigate();
 
@@ -65,9 +64,6 @@ const ItemDetails = () => {
           <AddToCart disabled>Item out of stock</AddToCart>
         )}
       </PriceAndAdd>
-      <div style={{ display: "none" }}>
-        <Cart postedItem={postedItem} />
-      </div>
     </Wrapper>
   );
 };
