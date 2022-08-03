@@ -7,8 +7,14 @@ import { useNavigate } from "react-router-dom";
 
 const Checkout = () => {
   // for setting user data for conf page + amount cost-------------------
-  const { userData, setUserData, cartItems, boolean, setBoolean } =
-    useContext(ItemsDataContext);
+  const {
+    userData,
+    setUserData,
+    cartItems,
+    setCartItems,
+    boolean,
+    setBoolean,
+  } = useContext(ItemsDataContext);
 
   //flag for rendering total after delay
   const [flag, setFlag] = useState(false);
@@ -16,6 +22,7 @@ const Checkout = () => {
   const cart = JSON.parse(localStorage.getItem(`cartID`));
   const nav = useNavigate();
 
+  //checksout and adds cart to orders
   const handleCheckout = () => {
     fetch("/goToCheckOut", {
       method: "PUT",
@@ -31,6 +38,7 @@ const Checkout = () => {
       });
   };
 
+  //lag for price to be like a realistic fetch
   useEffect(() => {
     setTimeout(() => {
       setFlag(!flag);
