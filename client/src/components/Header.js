@@ -9,7 +9,7 @@ import { ItemsDataContext } from "./ItemsDataContext";
 
 const Header = () => {
   const [screenWidth, setScreenWidth] = useState(window.screen.width);
-  const {cartItems} = useContext(ItemsDataContext);
+  const { cartItems } = useContext(ItemsDataContext);
   return (
     <Wrapper>
       <Logo to="/">
@@ -19,12 +19,12 @@ const Header = () => {
       {screenWidth > 600 ? (
         <Wrapper1>
           <Cart to="/cart">
-            {cartItems ? 
-            <ItemInTheCart>
-              <Num>{cartItems?.length}</Num>
-            </ItemInTheCart>
-            :null}
-            <AiOutlineShoppingCart  size = '35px'/>
+            {cartItems?.length > 0 ? (
+              <ItemInTheCart>
+                <Num>{cartItems?.length}</Num>
+              </ItemInTheCart>
+            ) : null}
+            <AiOutlineShoppingCart size="35px" />
           </Cart>
           <About to="/about">
             <h4>About</h4>
@@ -48,44 +48,40 @@ const Header = () => {
 const Menu = styled.div``;
 
 const ItemInTheCart = styled.div`
-
-border-radius: 2px;
-color: white;
-border-left: 3.7px solid transparent;
-border-right: 3.9px solid transparent;
-border-top: 11px solid var(--color-green);
-width: 16px;
-height:5px;
-display: flex;
-position:relative;
-left:32px;
-top:-1px;
-
+  border-radius: 2px;
+  color: white;
+  border-left: 3.7px solid transparent;
+  border-right: 3.9px solid transparent;
+  border-top: 11px solid var(--color-green);
+  width: 16px;
+  height: 5px;
+  display: flex;
+  position: relative;
+  left: 32px;
+  top: -1px;
 `;
 const Num = styled.div`
-color:white;
-position:relative;
-font-weight: bold;
-font-size: 9px;
-left:5px;
-top:-11px;
-
+  color: white;
+  position: relative;
+  font-weight: bold;
+  font-size: 9px;
+  left: 5px;
+  top: -11px;
 `;
 
 const Cart = styled(Link)`
-/* overflow: hidden; */
-text-decoration: none;
-display: flex;
-align-content:center;
-align-items: baseline;
-width: inherit;
-display:flex;
-align-items: center;
-padding: 5px;
-justify-content: center;
+  /* overflow: hidden; */
+  text-decoration: none;
+  display: flex;
+  align-content: center;
+  align-items: baseline;
+  width: inherit;
+  display: flex;
+  align-items: center;
+  padding: 5px;
+  justify-content: center;
   color: inherit;
- :hover {
-
+  :hover {
   }
 `;
 const Wrapper = styled.div`
@@ -112,7 +108,7 @@ const Logo = styled(NavLink)`
 const About = styled(NavLink)`
   text-decoration: none;
   color: var(--color-black);
-  padding-right:4px;
+  padding-right: 4px;
   :hover {
     display: inline;
     border-bottom: 3px solid var(--color-navbar-beige);

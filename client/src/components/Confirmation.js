@@ -2,14 +2,17 @@ import styled, { keyframes } from "styled-components";
 import { FiLoader } from "react-icons/fi";
 import { useEffect, useState, useContext } from "react";
 import { Link } from "react-router-dom";
+import { ItemsDataContext } from "./ItemsDataContext";
 
 const Confirmation = () => {
   const [orderInfo, setOrderInfo] = useState(null);
   const [state, setState] = useState("Loading");
+  const { setCartItems } = useContext(ItemsDataContext);
 
   //get the last order ID from Local storage and use it to render ite,s from tis order
   const cart = JSON.parse(localStorage.getItem(`cartID`));
 
+  //gets latest order just posted into orders DB
   useEffect(() => {
     fetch(`/getLatestOrder`)
       .then((res) => res.json())
@@ -21,6 +24,17 @@ const Confirmation = () => {
         throw new Error(err.stack);
       });
   }, [cart]);
+
+  useEffect(() => {
+    fetch(`/getCartItems/${cart}`)
+      .then((res) => res.json())
+      .then((data) => {
+        setCartItems(data.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  });
 
   if (state === "Loading") {
     return (
