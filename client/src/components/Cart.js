@@ -23,7 +23,8 @@ const Cart = () => {
     fetch(`/getCartItems/${cart}`)
       .then((res) => res.json())
       .then((data) => {
-        setCartItems(data.data);
+        console.log(data) 
+        setCartItems(data.data); // why are we seting it to the card ID number? 
         setStatus("idle");
       })
       .catch((err) => {
@@ -61,7 +62,7 @@ const Cart = () => {
         setRemove(data);
       });
   };
-
+  console.log(cartItems)
   //loading state
   if (status === "loading") {
     return (
@@ -90,7 +91,7 @@ const Cart = () => {
       ) : (
         <EmptyCart>Empty Cart</EmptyCart>
       )}
-      {cartItems?.map((item, index) => {
+      {typeof cartItems === 'array' && cartItems?.map((item, index) => {
         const length = item.numInStock;
         const newArr = new Array(length).fill(1);
         return (

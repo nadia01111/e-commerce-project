@@ -45,7 +45,7 @@ const Checkout = () => {
     );
   } else {
     //gets the prices of all items inside cart
-    const arrOfCost = cartItems.map((item) => {
+    const arrOfCost = cartItems?.map((item) => {
       return (
         Number(item.price.replace(/[^0-9.-]+/g, "")) * Number(item.amountBought)
       );

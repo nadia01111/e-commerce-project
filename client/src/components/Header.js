@@ -21,10 +21,9 @@ const Header = () => {
           <Cart to="/cart">
             {cartItems ? 
             <ItemInTheCart>
-              <Num>cartItems.length</Num>
+              <Num>{cartItems?.length}</Num>
             </ItemInTheCart>
             :null}
-            
             <AiOutlineShoppingCart  size = '35px'/>
           </Cart>
           <About to="/about">
