@@ -32,20 +32,20 @@ const Cart = () => {
   }, [remove, postedItem]);
 
   //handler for updating stock
-  const handleUpdate = () => {
-    fetch("/getUpdateCart", {
-      method: "PATCH",
-      body: JSON.stringify({
-        items: cartItems,
-        cartId: cart,
-      }),
-      headers: { "Content-Type": "application/json" },
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        console.log(data);
-      });
-  };
+  // const handleUpdate = () => {
+  //   fetch("/getUpdateCart", {
+  //     method: "PATCH",
+  //     body: JSON.stringify({
+  //       items: cartItems,
+  //       cartId: cart,
+  //     }),
+  //     headers: { "Content-Type": "application/json" },
+  //   })
+  //     .then((res) => res.json())
+  //     .then((data) => {
+  //       console.log(data);
+  //     });
+  // };
   //handler for deleting specific item onClick
   const handleDelete = (specificItem) => {
     fetch(`/deleteItemFromCart`, {
@@ -80,7 +80,7 @@ const Cart = () => {
           <PageName>Shopping Cart</PageName>
           <Checkout
             onClick={() => {
-              handleUpdate();
+              // handleUpdate();
               nav("/checkout");
             }}
           >
@@ -104,7 +104,7 @@ const Cart = () => {
                 {item.numInStock > 0 ? (
                   <>
                     <InStock>In stock</InStock>
-                    <Select
+                    {/* <Select
                       onChange={(ev) => {
                         item.amountBought = ev.target.value;
                       }}
@@ -112,7 +112,7 @@ const Cart = () => {
                       {newArr.slice(0, 10).map((element, index) => {
                         return <option value={index + 1}>{index + 1}</option>;
                       })}
-                    </Select>
+                    </Select> */}
                   </>
                 ) : (
                   <div style={{ color: "gray" }}>out of stock</div>

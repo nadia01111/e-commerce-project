@@ -1,13 +1,14 @@
 import { useEffect, useState, useContext } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
+import { FiLoader } from "react-icons/fi";
 import Cart from "./Cart";
 import { ItemsDataContext } from "./ItemsDataContext";
 
 const ItemDetails = () => {
   //parmas to correct route/path in App.js
   const { itemId } = useParams();
-  const {setPostedItem } = useContext(ItemsDataContext);
+  const { setPostedItem } = useContext(ItemsDataContext);
   const [item, setItem] = useState(null);
   const [status, setStatus] = useState("loading");
 
@@ -44,7 +45,13 @@ const ItemDetails = () => {
   };
 
   if (status === "loading") {
-    return <div>loading</div>;
+    return (
+      <LoaderWrapper>
+        <Icon>
+          <FiLoader style={{ height: "30px", width: "30px" }} />
+        </Icon>
+      </LoaderWrapper>
+    );
   }
 
   return (
@@ -107,9 +114,8 @@ const AddToCart = styled.button`
   border-radius: 3px;
   padding: 10px 15px;
 
-
   :hover {
-  opacity: 90%;
+    opacity: 90%;
   }
 
   &:disabled {
@@ -118,5 +124,27 @@ const AddToCart = styled.button`
   }
 `;
 
+const LoaderWrapper = styled.div`
+  height: 500px;
+`;
+
+const turning = keyframes`
+        0% {
+            transform: rotate(0deg);
+        }
+
+        100% {
+            transform: rotate(360deg);
+        }
+    `;
+
+const Icon = styled.div`
+  position: absolute;
+  width: 30px;
+  height: 30px;
+  top: 49%;
+  left: 49%;
+  animation: ${turning} 1000ms infinite linear;
+`;
 
 export default ItemDetails;

@@ -1,4 +1,5 @@
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
+import { FiLoader } from "react-icons/fi";
 import { useEffect, useState, useContext } from "react";
 import { Link } from "react-router-dom";
 
@@ -22,7 +23,13 @@ const Confirmation = () => {
   }, [cart]);
 
   if (state === "Loading") {
-    return <div>Loading</div>;
+    return (
+      <LoaderWrapper>
+        <Icon>
+          <FiLoader style={{ height: "30px", width: "30px" }} />
+        </Icon>
+      </LoaderWrapper>
+    );
   }
 
   return (
@@ -80,6 +87,29 @@ const Wrapper2 = styled.div`
 const Img = styled.img`
   padding: 10px;
   width: 60px;
+`;
+
+const LoaderWrapper = styled.div`
+  height: 500px;
+`;
+
+const turning = keyframes`
+        0% {
+            transform: rotate(0deg);
+        }
+
+        100% {
+            transform: rotate(360deg);
+        }
+    `;
+
+const Icon = styled.div`
+  position: absolute;
+  width: 30px;
+  height: 30px;
+  top: 49%;
+  left: 49%;
+  animation: ${turning} 1000ms infinite linear;
 `;
 
 export default Confirmation;
