@@ -1,12 +1,17 @@
 import { createContext, useContext, useEffect, useState } from "react";
 
+
 export const ItemsDataContext = createContext(null);
 
+
 export const ItemsDataProvider = ({ children }) => {
-  //all items contained inside array cartItem
+
+  const [allItems, setAllItems] = useState(null); //all items for rendering 
+  const [item, setItem] = useState(null); // exact item 
   const [cartItems, setCartItems] = useState(null);
-  const [allItems, setAllItems] = useState(null);
   const [boolean, setBoolean] = useState(false);
+  const cartId = localStorage.getItem("cartID");
+
   const [userData, setUserData] = useState({
     firstName: "",
     lastName: "",
@@ -15,8 +20,19 @@ export const ItemsDataProvider = ({ children }) => {
     phoneNummber: "",
   });
   const [postedItem, setPostedItem] = useState(null);
-  const cartId = localStorage.getItem("cartID");
 
+
+  //get all items fetch
+    useEffect(() => {
+    fetch(`/getItems`)
+      .then((res) => res.json())
+      .then((data) => {
+        setAllItems(data.data);
+      });
+  }, []);
+  
+  
+  //create new unique cart fetch
   useEffect(() => {
     if (cartId === null) {
       fetch(`/createCart`)
@@ -29,13 +45,23 @@ export const ItemsDataProvider = ({ children }) => {
     }
   }, [boolean]);
 
-  useEffect(() => {
-    fetch(`/getItems`)
+
+/// handleClick to add item in the cart
+  const handleClick = () => {
+    fetch("/addItemToCart", {
+      method: "POST",
+      body: JSON.stringify({
+        ...item,
+        cartId: JSON.parse(localStorage.getItem(`cartID`)),
+      }),
+      headers: { "Content-Type": "application/json" },
+    })
       .then((res) => res.json())
       .then((data) => {
-        setAllItems(data.data);
+        setPostedItem(data.data);
       });
-  }, []);
+  };
+
 
   return (
     <ItemsDataContext.Provider
@@ -50,6 +76,7 @@ export const ItemsDataProvider = ({ children }) => {
         setCartItems,
         boolean,
         setBoolean,
+        handleClick
       }}
     >
       {children}

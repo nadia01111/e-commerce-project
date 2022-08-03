@@ -4,11 +4,12 @@ import SearchBar from "./SearchBar";
 import { AiOutlineShoppingCart, AiOutlineMenu } from "react-icons/ai";
 import { NavLink } from "react-router-dom";
 import { Link } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
+import { ItemsDataContext } from "./ItemsDataContext";
 
 const Header = () => {
   const [screenWidth, setScreenWidth] = useState(window.screen.width);
-
+  const {cartItems} = useContext(ItemsDataContext);
   return (
     <Wrapper>
       <Logo to="/">
@@ -18,14 +19,23 @@ const Header = () => {
       {screenWidth > 600 ? (
         <Wrapper1>
           <Cart to="/cart">
-            <AiOutlineShoppingCart />
+            {cartItems ? 
+            <ItemInTheCart>
+              <Num>cartItems.length</Num>
+            </ItemInTheCart>
+            :null}
+            
+            <AiOutlineShoppingCart  size = '35px'/>
           </Cart>
           <About to="/about">
             <h4>About</h4>
           </About>
-          <LogIn to="/login">
+          <Btn to="/orderconfirm">
+            <h4>Orders</h4>
+          </Btn>
+          <Btn to="/login">
             <h4>Login</h4>
-          </LogIn>
+          </Btn>
         </Wrapper1>
       ) : (
         <Menu>
@@ -37,11 +47,46 @@ const Header = () => {
 };
 
 const Menu = styled.div``;
+
+const ItemInTheCart = styled.div`
+
+border-radius: 2px;
+color: white;
+border-left: 3.7px solid transparent;
+border-right: 3.9px solid transparent;
+border-top: 11px solid var(--color-green);
+width: 16px;
+height:5px;
+display: flex;
+position:relative;
+left:32px;
+top:-1px;
+
+`;
+const Num = styled.div`
+color:white;
+position:relative;
+font-weight: bold;
+font-size: 9px;
+left:5px;
+top:-11px;
+
+`;
+
 const Cart = styled(Link)`
+/* overflow: hidden; */
+text-decoration: none;
+display: flex;
+align-content:center;
+align-items: baseline;
+width: inherit;
+display:flex;
+align-items: center;
+padding: 5px;
+justify-content: center;
   color: inherit;
-  :hover {
-    display: inline;
-    border-bottom: 3px solid var(--color-navbar-beige);
+ :hover {
+
   }
 `;
 const Wrapper = styled.div`
@@ -55,7 +100,7 @@ const Wrapper = styled.div`
 const Wrapper1 = styled.div`
   display: flex;
   justify-content: space-around;
-  width: 30%;
+  width: 300px;
   align-items: center;
 `;
 
@@ -68,13 +113,14 @@ const Logo = styled(NavLink)`
 const About = styled(NavLink)`
   text-decoration: none;
   color: var(--color-black);
+  padding-right:4px;
   :hover {
     display: inline;
     border-bottom: 3px solid var(--color-navbar-beige);
   }
 `;
 
-const LogIn = styled(NavLink)`
+const Btn = styled(NavLink)`
   color: var(--color-black);
   text-decoration: none;
   margin-right: 10px;
@@ -83,7 +129,7 @@ const LogIn = styled(NavLink)`
   padding: 0;
   border: 1px solid var(--color-black);
   border-radius: 3px;
-  padding: 5px 15px;
+  padding: 5px 12px;
   font: inherit;
   cursor: pointer;
   :hover {

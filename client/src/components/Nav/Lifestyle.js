@@ -3,17 +3,12 @@ import styled, { keyframes } from "styled-components";
 import { FiLoader } from "react-icons/fi";
 import { useContext, useState, useEffect } from "react";
 import { NavLink, useParams } from "react-router-dom";
+import { ItemsDataContext } from "../ItemsDataContext";
 
 const Lifestyle = () => {
   //contains all of the items with category Lifestyle
-  const [category, setCategory] = useState(null);
-  useEffect(() => {
-    fetch(`/getItems`)
-      .then((res) => res.json())
-      .then((data) => {
-        setCategory(data.data);
-      });
-  }, []);
+  const { allItems } = useContext(ItemsDataContext);
+  const [category, setCategory] = useState(allItems);
 
   if (category !== null) {
     //filtered array containing only items with category 'Lifestyle'

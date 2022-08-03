@@ -6,6 +6,8 @@ const Confirmation = () => {
 
   const [orderInfo, setOrderInfo] = useState(null);
   const [state, setState] = useState("Loading")
+
+  //get the last order ID from Local storage and use it to render ite,s from tis order
   const cart = JSON.parse(localStorage.getItem(`cartID`));
 
   useEffect(() => {
@@ -32,7 +34,7 @@ if (state === "Loading") {
   return (
   <Wrapper>
     <Wrapper1>
-    <Title>{`Your order #${orderInfo._id} is confirmed!`}</Title>
+    <Title>Your order <span>#{orderInfo._id}</span> is on the way!</Title>
     </Wrapper1>
         {orderInfo.orderItems.map((item) => {
           return (
@@ -64,11 +66,14 @@ padding: 18px;
 `;
 
 const Title = styled.div`
-
 font-size: 32px;
 margin-bottom:20px;
 align-content: flex-start;
 padding-bottom:20px;
+span{
+  color:var(--color-green);
+  text-shadow: 2px 2px 2px gray;
+}
 `;
 
 const Wrapper2 = styled.div`
