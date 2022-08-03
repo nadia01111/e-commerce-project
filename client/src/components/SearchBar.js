@@ -22,6 +22,7 @@ const matchedSuggestions = allItems?.filter((item) => {
 // function on form submit which redirects to searchresults page
 const showSearchResults = (ev) => {
     ev.preventDefault();
+    setSearch(!search)
     navigate(`/${value}`)
 }
 ///if user chose the item from typeahead suggestion list, he navigates to item page
@@ -83,7 +84,7 @@ list-style-type:none;
 :hover {
     background-color:var( --color-green);
     color: var(--color-navbar-beige);;
-    opacity: 50%;
+   
 }`;
 
 

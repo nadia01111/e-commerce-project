@@ -2,19 +2,13 @@ import React from "react";
 import styled, { keyframes } from "styled-components";
 import { FiLoader } from "react-icons/fi";
 import { NavLink, useParams } from "react-router-dom";
-
+import { ItemsDataContext } from "../ItemsDataContext";
 import { useContext, useState, useEffect } from "react";
 
 //contains all of the items with category Medical
 const Medical = () => {
-  const [category, setCategory] = useState(null);
-  useEffect(() => {
-    fetch(`/getItems`)
-      .then((res) => res.json())
-      .then((data) => {
-        setCategory(data.data);
-      });
-  }, []);
+  const { allItems } = useContext(ItemsDataContext);
+  const [category, setCategory] = useState(allItems);
 
   if (category !== null) {
     //filtered array containing only items with category 'Medical'

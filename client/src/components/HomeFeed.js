@@ -6,11 +6,13 @@ import { FiLoader } from "react-icons/fi";
 import { Link } from "react-router-dom";
 
 const HomeFeed = () => {
-  const { allItems, setAllItems } = useContext(ItemsDataContext);
+  const { allItems} = useContext(ItemsDataContext);
 
   /// display 18 random items on home page
 
   if (allItems) {
+
+    ///create an array of random items & render it
     let randomItemArr = [];
     for (let counter = 0; counter < 18; counter++) {
       let randomIndex = Math.floor(Math.random() * allItems?.length);

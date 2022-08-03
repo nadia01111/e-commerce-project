@@ -4,14 +4,18 @@ import { ItemsDataContext } from "./ItemsDataContext";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 
+
+// this page shows all mathced results of search
+
 const SearchResults = () => {
-    const {allItems} = useContext(ItemsDataContext);
+    const {allItems,handleClick} = useContext(ItemsDataContext);
+    /// useParams needes for filter allItems array from Context
+
     let { search } = useParams();
     const matchedSuggestions = allItems?.filter((item) => {
         return item.name.toLowerCase().includes(search.toLowerCase())
     });
-console.log(matchedSuggestions);
-console.log(search);
+
 if (search ===null) {
     return <div>Loading</div>
 }
@@ -26,6 +30,11 @@ return (
                     <Wrap2>
                         <Wrap3>{item.name}</Wrap3>
                         <Wrap4>{item.price}</Wrap4>
+                        {item.numInStock > 0 ?
+                            <AddToCart onClick={handleClick}>Add to Cart</AddToCart> 
+                            : 
+                            <AddToCart disabled>Item out of stock</AddToCart>
+                        }
                     </Wrap2>
                     
                 </Wrap>)
@@ -57,4 +66,24 @@ justify-content: center;
 `;
 const Wrap3 = styled.div``;
 const Wrap4 = styled.div``;
+const AddToCart = styled.button`
+color: white;
+background-color: var(--color-green);
+border: none;
+padding: 5px 10px;
+border-radius: 3px;
+cursor: pointer;
+
+:hover {
+  opacity: 90%;
+  }
+
+  &:disabled {
+    cursor: not-allowed;
+    background-color: gray;
+  }
+`;
+
+
+
 export default SearchResults;

@@ -7,7 +7,7 @@ import { ItemsDataContext } from "./ItemsDataContext";
 const ItemDetails = () => {
   //parmas to correct route/path in App.js
   const { itemId } = useParams();
-  const { postedItem, setPostedItem } = useContext(ItemsDataContext);
+  const {setPostedItem } = useContext(ItemsDataContext);
   const [item, setItem] = useState(null);
   const [status, setStatus] = useState("loading");
 
@@ -81,14 +81,13 @@ const Location = styled.div`
 `;
 
 const Img = styled.img`
-  height: 400px;
-  width: 400px;
+  width: 350px;
   padding-bottom: 25px;
 `;
 
 const Price = styled.div`
   padding-right: 15px;
-  font-size: 25px;
+  font-size: 20px;
 `;
 
 const PriceAndAdd = styled.div`
@@ -98,14 +97,26 @@ const PriceAndAdd = styled.div`
 
 const AddToCart = styled.button`
   border: none;
-  background-color: green;
+  background-color: var(--color-green);
   padding: 12px 10px;
   color: white;
   cursor: pointer;
+  margin-right: 10px;
+  border: none;
+  padding: 0;
+  border-radius: 3px;
+  padding: 10px 15px;
 
-  &:disbaled {
+
+  :hover {
+  opacity: 90%;
+  }
+
+  &:disabled {
     cursor: not-allowed;
+    background-color: gray;
   }
 `;
+
 
 export default ItemDetails;
