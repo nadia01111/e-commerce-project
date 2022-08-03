@@ -59,6 +59,6 @@ express()
   // get the most recent order that was placed
   .get("/getLatestOrder", getLatestOrder)
   // gets the updated cart so it can update stock properly
-  .get("/getUpdateCart", getUpdatedCart)
+  .patch("/getUpdateCart", getUpdatedCart)
 
   .listen(PORT, () => console.info(`Listening on port ${PORT}`));
