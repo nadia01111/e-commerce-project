@@ -184,9 +184,7 @@ const goCheckOut = async (req, res) => {
     const db = client.db("E-Commerce_Project");
     const cartItems = await db
       .collection("Cart")
-      .findOne({ _id: ObjectId(_id) })
-    
-
+      .findOne({ _id: ObjectId(_id) });
 
     if (cartItems === null || cartItems === undefined) {
       return res.status(500).json({
@@ -195,12 +193,9 @@ const goCheckOut = async (req, res) => {
       });
     }
 
-
     orderItems = [...cartItems.items];
 
     //update Item Data stock
-
-
 
     orderItems.forEach(async (item) => {
       //get the Item's actual stock data from Item Data collection
@@ -211,7 +206,7 @@ const goCheckOut = async (req, res) => {
       // VALIDATION -> // check if there's enough stock
       if (
         findFromItem_data !== null &&
-        findFromItem_data.numInStock + Number(item.amountBought) < 0
+        findFromItem_data.numInStock - Number(item.amountBought) < 0
       ) {
         return res.status(500).json({
           status: 500,
@@ -421,15 +416,13 @@ const getUpdatedCart = async () => {
 
     if (validateCart !== null) {
       arr.forEach(async (item) => {
-        await db
-          .collection("Cart")
-          .updateOne(
-            {
-              _id: ObjectId(id),
-              "items.amountBought": validateCart.amountBought,
-            },
-            { $set: { "items.$.amountBought": item.amountBought } }
-          );
+        await db.collection("Cart").updateOne(
+          {
+            _id: ObjectId(id),
+            "items.amountBought": validateCart.amountBought,
+          },
+          { $set: { "items.$.amountBought": item.amountBought } }
+        );
       });
       return res.status(201).json({
         status: 201,
