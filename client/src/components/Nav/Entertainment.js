@@ -82,6 +82,11 @@ const Wrap = styled.div`
   align-items: flex-start;
   justify-content: space-between;
   align-content: flex-start;
+  height: 300px;
+  :hover{
+    margin-bottom: 3px solid var(--color-navbar-beige);
+    
+  }
 `;
 const Img = styled.img`
   width: 100%;
@@ -107,6 +112,7 @@ const Text = styled.div`
 const LinkTo = styled(NavLink)`
   text-decoration: none;
   color: black;
+  
 `;
 
 const LoaderWrapper = styled.div`
