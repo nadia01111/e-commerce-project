@@ -48,7 +48,7 @@ export const ItemsDataProvider = ({ children }) => {
 
 /// handleClick to add item in the cart
   const handleClick = () => {
-    fetch("/addItemToCart", {
+    fetch("/savePalette", {
       method: "POST",
       body: JSON.stringify({
         ...item,
