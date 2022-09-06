@@ -73,6 +73,7 @@ const Prediction = styled.span`
 font-weight:bold;
 `
 const Ul = styled.ul`
+z-index: 2;
 position: absolute;
 top:60px;
 background-color: var(--color-navbar-beige);
