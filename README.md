@@ -10,4 +10,4 @@ Clicking  on a category here will take you to the appropraite item sub-category.
 18 items from the product catalogue are randomly displayed on this page. 
 
 
-![homepage](https://raw.github.com/nadia01111/e-commerce-project/client/public/img/homepage.jpg)
+![homepage](https://github.com/nadia01111/e-commerce-project/blob/main/client/public/img/homepage.jpg)
